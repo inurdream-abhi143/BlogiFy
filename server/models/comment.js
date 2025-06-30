@@ -30,4 +30,4 @@ const blogComment = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Comment", blogComment);
+export default mongoose.model("Comment", blogComment);
