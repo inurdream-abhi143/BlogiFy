@@ -1,10 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
-import cors from "cors";
-import bodyParser from "body-parser";
+// import cors from "cors";
+// import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
-
+import postRoutes from "./routes/postRoutes.js";
+import commnetRoutes from "./routes/commentRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -25,6 +26,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
+app.use("/comments", commnetRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
