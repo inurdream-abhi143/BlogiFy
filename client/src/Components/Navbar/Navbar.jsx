@@ -1,39 +1,50 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
+import { RiLoginBoxLine } from "react-icons/ri";
+import BlogLogo from "../../assets/BlogLogo.png";
 
 const Navbar = () => {
   return (
     <>
-      <nav className="w-full h-20 bg-gray-800 text-xl text-white flex items-center justify-around px-2  mx-4">
+      <nav className="w-full h-20 bg-gray-800 text-xl text-white flex items-center justify-between px-8 shadow-md sticky top-0 z-50 ">
         <div className="navbar_logo">
-          <h1 className="text-2xl text-bold ">BlogiFy </h1>
+          <h1 className="text-2xl font-bold tracking-wide">BlogiFy</h1>
+          {/* <img src={BlogLogo} className="w-25 h-15 bg-transparent" /> */}
         </div>
-        <div className="flex items-center gap-6 navbar_links">
-          <ul className="list-none gap-6 flex ">
-            <li className="text-2xl text-white cursor-pointer hover:text-gray-300">
-              <Link to="/">Home</Link>
-            </li>
-
-            <li className="text-2xl text-white cursor-pointer hover:text-gray-300">
-              <Link to="/blogs">Blogs</Link>
-            </li>
-
-            <li className="text-2xl text-white cursor-pointer hover:text-gray-300">
-              <Link to="/about">About</Link>
-            </li>
-
-            <li className="text-2xl text-white cursor-pointer hover:text-gray-300">
-              <Link to="/contact">Contact</Link>
-            </li>
-          </ul>
-        </div>
-        <div className="navbar_btn flex items-center px-4">
-          <button className="bg-green-500 rounded-xl border-2 mx-2 px-4 cursor-pointer w-35 h-12 hover:bg-green-300">
-            Login
-          </button>
-          <button className="bg-indigo-600 rounded-xl border-2 mx-2 px-4 cursor-pointer w-40 h-12 hover:bg-indigo-300 ">
-            Register
-          </button>
+        <ul className="flex space-x-8">
+          <li className="hover:text-yellow-400 transition-colors duration-200">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="hover:text-yellow-400 transition-colors duration-200">
+            <Link to="/blogs">Blogs</Link>
+          </li>
+          <li className="hover:text-yellow-400 transition-colors duration-200">
+            <Link to="/about">About</Link>
+          </li>
+          <li className="hover:text-yellow-400 transition-colors duration-200">
+            <Link to="/contact">Contact</Link>
+          </li>
+        </ul>
+        <div className="flex items-center space-x-4">
+          <Link to="/login">
+            <button className="flex items-center bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+              <RiLoginBoxLine className="mr-2" /> Login
+            </button>
+          </Link>
+          <form className="flex items-center bg-gray-700 rounded-lg overflow-hidden">
+            <input
+              type="text"
+              placeholder="Search for blogs"
+              className="bg-gray-700 text-white px-3 py-2 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="bg-yellow-400 text-gray-800 px-3 py-2 rounded-xl cursor-pointer hover:bg-yellow-300 transition"
+            >
+              <FaSearch />
+            </button>
+          </form>
         </div>
       </nav>
     </>
