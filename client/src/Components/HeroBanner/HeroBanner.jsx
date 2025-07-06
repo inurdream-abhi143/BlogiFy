@@ -1,37 +1,101 @@
 import React from "react";
-
+import { Box, Typography, Button, Stack, Container } from "@mui/material";
 import Hero_banner from "../../assets/Hero_banner.jpg";
 
 const HeroBanner = () => {
   return (
-    <>
-      <div
-        className="heroBanner w-full h-[80vh] bg-cover bg-center bg-no-repeat flex items-center justify-center text-white m-0 pt-5"
-        style={{ backgroundImage: `url(${Hero_banner} )` }}
-      >
-        <div className=" flex flex-col items-center justify-center w-[50%]">
-          <div className="hero-text ">
-            <h1 className="text-6xl font-bold text-gray-800">
-              Welcome, To BlogiFy
-            </h1>
-            <h3 className="text-3xl mt-12  text-gray-600">
-              Read. Write. Discover.
-            </h3>
-            <p className="text-2xl mt-6  text-gray-500">
-              Discover thousands of blogs, or write your own today.
-            </p>
-          </div>
-          <div className="hero-buttons">
-            <button className="button bg-amber-400 cursor-pointer w-55 h-14 rounded-3xl m-4 p-4 ">
-              Explore More Blogs
-            </button>
-            <button className=" button bg-amber-400 cursor-pointer w-55 h-14 rounded-3xl  m-4 p-4">
-              Become Publisher
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
+    <Box
+      sx={{
+        backgroundImage: `url(${Hero_banner})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "90vh",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <Container>
+        <Typography
+          variant="h3"
+          sx={{
+            fontWeight: "bold",
+            color: "white",
+            textShadow: "2px 2px 6px rgba(0,0,0,0.4)",
+          }}
+        >
+          Welcome To <span style={{ color: "#facc15" }}>BlogiFy</span>
+        </Typography>
+
+        <Typography
+          variant="h5"
+          sx={{
+            mt: 2,
+            color: "white",
+            maxWidth: "600px",
+            textShadow: "1px 1px 4px rgba(0,0,0,0.4)",
+          }}
+        >
+          <Box
+            component="span"
+            sx={{ color: "#2563eb", fontWeight: 500, fontSize: "1.8rem" }}
+          >
+            Read.
+          </Box>{" "}
+          <Box
+            component="span"
+            sx={{ color: "#9333ea", fontWeight: 500, fontSize: "1.8rem" }}
+          >
+            Write.
+          </Box>{" "}
+          <Box
+            component="span"
+            sx={{ color: "#14b8a6", fontWeight: 500, fontSize: "1.8rem" }}
+          >
+            Discover.
+          </Box>
+          <br />
+          <Box
+            component="span"
+            sx={{ color: "#f472b6", fontSize: "1.5rem", fontWeight: "bold" }}
+          >
+            Discover thousands of blogs, or write your own today.
+          </Box>
+        </Typography>
+
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mt={4}>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#facc15",
+              color: "#fff",
+              fontWeight: 600,
+              px: 4,
+              py: 1.5,
+              "&:hover": { backgroundColor: "#fbbf24" },
+            }}
+          >
+            Explore More Blogs
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              borderColor: "#fff",
+              color: "#fff",
+              fontWeight: 600,
+              px: 4,
+              py: 1.5,
+              "&:hover": {
+                backgroundColor: "rgba(255,255,255,0.1)",
+                borderColor: "#e5e7eb",
+              },
+            }}
+          >
+            Become Publisher
+          </Button>
+        </Stack>
+      </Container>
+    </Box>
   );
 };
 

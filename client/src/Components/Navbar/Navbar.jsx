@@ -1,53 +1,125 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+  TextField,
+  InputAdornment,
+} from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import { RiLoginBoxLine } from "react-icons/ri";
-import BlogLogo from "../../assets/BlogLogo.png";
 
 const Navbar = () => {
   return (
-    <>
-      <nav className="w-full h-20 bg-gray-800 text-xl text-white flex items-center justify-between px-8 shadow-md sticky top-0 z-50 ">
-        <div className="navbar_logo">
-          <h1 className="text-2xl font-bold tracking-wide">BlogiFy</h1>
-          {/* <img src={BlogLogo} className="w-25 h-15 bg-transparent" /> */}
-        </div>
-        <ul className="flex space-x-8">
-          <li className="hover:text-yellow-400 transition-colors duration-200">
-            <Link to="/">Home</Link>
-          </li>
-          <li className="hover:text-yellow-400 transition-colors duration-200">
-            <Link to="/blogs">Blogs</Link>
-          </li>
-          <li className="hover:text-yellow-400 transition-colors duration-200">
-            <Link to="/about">About</Link>
-          </li>
-          <li className="hover:text-yellow-400 transition-colors duration-200">
-            <Link to="/contact">Contact</Link>
-          </li>
-        </ul>
-        <div className="flex items-center space-x-4">
-          <Link to="/login">
-            <button className="flex items-center bg-yellow-400 text-gray-800 px-4 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
-              <RiLoginBoxLine className="mr-2" /> Login
-            </button>
-          </Link>
-          <form className="flex items-center bg-gray-700 rounded-lg overflow-hidden">
-            <input
-              type="text"
-              placeholder="Search for blogs"
-              className="bg-gray-700 text-white px-3 py-2 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="bg-yellow-400 text-gray-800 px-3 py-2 rounded-xl cursor-pointer hover:bg-yellow-300 transition"
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: "#1f2937",
+        boxShadow: 3,
+        height: "80px", //  Custom height here
+        justifyContent: "center",
+      }}
+    >
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          minHeight: "80px !important", //  Force height of toolbar
+        }}
+      >
+        {/* Left Logo */}
+        <Typography
+          variant="h2" //  font size can be customized here
+          component={Link}
+          to="/"
+          sx={{
+            color: "#fff",
+            textDecoration: "none",
+            fontWeight: "bold",
+            fontSize: "32px", //  override default font size
+          }}
+        >
+          BlogiFy
+        </Typography>
+
+        {/* Navigation Links */}
+        <Box sx={{ display: "flex", gap: 3, height: "80px" }}>
+          {["Home", "Blogs", "About", "Contact"].map((text, idx) => (
+            <Button
+              key={idx}
+              component={Link}
+              to={text === "Home" ? "/" : `/${text.toLowerCase()}`}
+              sx={{
+                color: "white",
+                fontSize: "24px",
+                textTransform: "none",
+                "&:hover": { color: "#facc15" },
+              }}
             >
-              <FaSearch />
-            </button>
-          </form>
-        </div>
-      </nav>
-    </>
+              {text}
+            </Button>
+          ))}
+        </Box>
+
+        {/* Right: Login + Search */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Button
+            variant="contained"
+            startIcon={<RiLoginBoxLine />}
+            component={Link}
+            to="/login"
+            sx={{
+              fontSize: "18px", //  button font size
+              backgroundColor: "#facc15",
+              color: "#1f2937",
+              textTransform: "none",
+              "&:hover": {
+                backgroundColor: "#fde047",
+              },
+            }}
+          >
+            Login
+          </Button>
+
+          <TextField
+            size="small"
+            placeholder="Search for blogs"
+            sx={{
+              width: "350px",
+              input: {
+                color: "white",
+                backgroundColor: "#374151",
+                fontSize: "18px", // 👈 input font size
+              },
+              "& fieldset": { border: "none" },
+              borderRadius: "6px",
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    type="submit"
+                    sx={{
+                      color: "#1f2937",
+                      backgroundColor: "#facc15",
+                      borderRadius: "8px",
+                      "&:hover": {
+                        backgroundColor: "#fde047",
+                      },
+                    }}
+                  >
+                    <FaSearch />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 
