@@ -18,6 +18,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       enum: ["user", "admin", "publisher"],
+      default: "user",
     },
     password: {
       type: String,
@@ -28,4 +29,3 @@ const userSchema = new Schema(
 );
 
 export default mongoose.model("User", userSchema);
-

@@ -4,15 +4,15 @@ import express from "express";
 
 const user = express.Router();
 
-user.post("/", async function (req, res) {
-  try {
-    const newUser = new User(req.body);
-    const saveUser = await newUser.save();
-    res.status(201).json(saveUser);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+// user.post("/", async function (req, res) {
+//   try {
+    // const newUser = new User(req.body);
+//     const saveUser = await newUser.save();
+//     res.status(201).json(saveUser);
+//   } catch (err) {
+//     res.status(400).json({ error: err.message });
+//   }
+// });
 
 user.get("/", async (req, res) => {
   try {

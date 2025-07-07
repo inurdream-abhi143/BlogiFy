@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import commnetRoutes from "./routes/commentRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -24,6 +25,10 @@ mongoose
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
+
+// app.get("/hello", function (req, res) {
+//   res.send("Hey Bro");
+// });
 
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
