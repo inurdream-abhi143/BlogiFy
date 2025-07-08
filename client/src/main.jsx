@@ -9,11 +9,18 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import App from "./App.jsx";
 import { LoginContextProvider } from "./contexts/LoginContext.jsx";
+import { ToastContainer } from "react-toastify";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <LoginContextProvider>
       <App />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        pauseOnHover
+        theme="light"
+      />
     </LoginContextProvider>
   </StrictMode>
 );

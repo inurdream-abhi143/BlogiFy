@@ -10,29 +10,63 @@ import {
   Paper,
 } from "@mui/material";
 import React from "react";
+import { useEffect } from "react";
+
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onRegisterUser = (data) => {
     console.log("Form Submitted:", data);
+
+    const userInfo = {
+      username: data.username,
+      email: data.email,
+      password: data.password,
+    };
+    userSignup(userInfo);
+    reset();
+    navigate("/login");
   };
 
+  const userSignup = (userInfo) => {
+    // console.log("hello", userInfo);
+    // debugger;
+    fetch("http://localhost:3000/auth/signup", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(userInfo),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Faied to  signup ");
+        return res.json();
+      })
+      .then((newUser) => {
+        toast.success("User signup successfuly");
+      })
+      .catch((err) => {
+        toast.warning(`signup error, ${err.message}`);
+      });
+  };
   return (
     <Container
       maxWidth="sm"
       sx={{
-        minHeight: "100vh",
+        minHeight: "80vh",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        width: "650px",
       }}
     >
       <Paper
@@ -47,7 +81,7 @@ const SignUp = () => {
         <Typography variant="h4" align="center" gutterBottom>
           Sign Up for BlogiFy
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onRegisterUser)}>
           {/* Username */}
           <FormControl fullWidth margin="normal" error={!!errors.username}>
             <InputLabel htmlFor="username">Username</InputLabel>

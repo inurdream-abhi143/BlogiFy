@@ -6,7 +6,8 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import commnetRoutes from "./routes/commentRoutes.js";
-
+import auth from "./routes/auth.js";
+import cors from "cors";
 dotenv.config();
 
 const app = express();
@@ -14,6 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors());
 mongoose
   .connect("mongodb://localhost:27017/Blogs")
   .then(() => {
@@ -29,7 +31,7 @@ app.get("/", (req, res) => {
 // app.get("/hello", function (req, res) {
 //   res.send("Hey Bro");
 // });
-
+app.use("/auth", auth);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 app.use("/comments", commnetRoutes);

@@ -10,19 +10,59 @@ import {
   Paper,
 } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useContext } from "react";
+import { LoginContext } from "../../contexts/LoginContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const { loginInfo, setLoginInfo } = useContext(LoginContext);
   const onSubmit = (data) => {
-    console.log("Login Data:", data);
-    // TODO: Add login logic here
+    debugger;
+    const loginInfo = {
+      email: data.email,
+      password: data.password,
+    };
+    checkLogin(loginInfo);
+  };
+  const checkLogin = (loginInfo) => {
+    fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(loginInfo),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("No data found");
+        }
+        return res.json();
+      })
+      .then((userInfo) => {
+        localStorage.setItem("token", userInfo.token);
+        const info = {
+          username: userInfo.username,
+          email: userInfo.email,
+        };
+        // console.log(info);
+        setLoginInfo(info);
+        localStorage.setItem("userInfo", JSON.stringify(info));
+        toast.success("Login successful! ");
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error(`login failed ${err.message}`);
+      });
+
+    // console.log(loginInfo);
   };
 
   return (

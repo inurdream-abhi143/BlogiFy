@@ -8,7 +8,7 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/Signup/SignUp";
-
+import { ToastContainer, toast } from "react-toastify";
 const App = () => {
   return (
     <>

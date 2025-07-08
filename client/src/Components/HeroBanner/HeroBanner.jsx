@@ -6,88 +6,120 @@ const HeroBanner = () => {
   return (
     <Box
       sx={{
+        position: "relative",
         backgroundImage: `url(${Hero_banner})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        minHeight: "90vh",
+        minHeight: "92vh",
         display: "flex",
         alignItems: "center",
+        zIndex: 1,
+        "::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(0, 0, 0, 0.55)", // darker for contrast
+          zIndex: -1,
+        },
       }}
     >
-      <Container>
+      <Container maxWidth="md">
         <Typography
-          variant="h3"
+          variant="h2"
           sx={{
-            fontWeight: "bold",
+            fontWeight: 800,
+            fontSize: { xs: "2.7rem", sm: "3.5rem", md: "4.5rem" },
             color: "white",
-            textShadow: "2px 2px 6px rgba(0,0,0,0.4)",
+            textShadow: "3px 3px 10px rgba(0,0,0,0.7)",
+            lineHeight: 1.2,
           }}
         >
-          Welcome To <span style={{ color: "#facc15" }}>BlogiFy</span>
+          Welcome to{" "}
+          <Box component="span" sx={{ color: "#facc15" }}>
+            BlogiFy
+          </Box>
         </Typography>
 
         <Typography
-          variant="h5"
           sx={{
-            mt: 2,
-            color: "white",
-            maxWidth: "600px",
-            textShadow: "1px 1px 4px rgba(0,0,0,0.4)",
+            mt: 3,
+            fontSize: { xs: "1.4rem", sm: "1.8rem" },
+            color: "#f3f4f6",
+            lineHeight: 1.8,
+            maxWidth: "750px",
+            textShadow: "2px 2px 6px rgba(0,0,0,0.6)",
           }}
         >
-          <Box
-            component="span"
-            sx={{ color: "#2563eb", fontWeight: 500, fontSize: "1.8rem" }}
-          >
+          <Box component="span" sx={{ color: "#3b82f6", fontWeight: "bold" }}>
             Read.
           </Box>{" "}
-          <Box
-            component="span"
-            sx={{ color: "#9333ea", fontWeight: 500, fontSize: "1.8rem" }}
-          >
+          <Box component="span" sx={{ color: "#9333ea", fontWeight: "bold" }}>
             Write.
           </Box>{" "}
-          <Box
-            component="span"
-            sx={{ color: "#14b8a6", fontWeight: 500, fontSize: "1.8rem" }}
-          >
+          <Box component="span" sx={{ color: "#10b981", fontWeight: "bold" }}>
             Discover.
           </Box>
           <br />
           <Box
             component="span"
-            sx={{ color: "#f472b6", fontSize: "1.5rem", fontWeight: "bold" }}
+            sx={{
+              mt: 2,
+              display: "inline-block",
+              color: "#f472b6",
+              fontWeight: 700,
+              fontSize: "1.6rem",
+            }}
           >
-            Discover thousands of blogs, or write your own today.
+            Dive into thousands of blogs — or create your own masterpiece today.
           </Box>
         </Typography>
 
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mt={4}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={3}
+          mt={6}
+          alignItems="start"
+        >
           <Button
             variant="contained"
             sx={{
               backgroundColor: "#facc15",
-              color: "#fff",
-              fontWeight: 600,
-              px: 4,
-              py: 1.5,
-              "&:hover": { backgroundColor: "#fbbf24" },
+              color: "#1f2937",
+              fontSize: "1.25rem",
+              fontWeight: 700,
+              px: 5,
+              py: 1.8,
+              borderRadius: "12px",
+              boxShadow: "0 8px 15px rgba(0,0,0,0.3)",
+              transition: "transform 0.2s ease",
+              "&:hover": {
+                backgroundColor: "#fde047",
+                transform: "scale(1.05)",
+              },
             }}
           >
-            Explore More Blogs
+            Explore Blogs
           </Button>
           <Button
             variant="outlined"
             sx={{
-              borderColor: "#fff",
-              color: "#fff",
-              fontWeight: 600,
-              px: 4,
-              py: 1.5,
+              borderColor: "#ffffff",
+              color: "#ffffff",
+              fontSize: "1.25rem",
+              fontWeight: 700,
+              px: 5,
+              py: 1.8,
+              borderRadius: "12px",
+              boxShadow: "0 8px 15px rgba(0,0,0,0.2)",
+              transition: "transform 0.2s ease",
               "&:hover": {
                 backgroundColor: "rgba(255,255,255,0.1)",
                 borderColor: "#e5e7eb",
+                transform: "scale(1.05)",
               },
             }}
           >

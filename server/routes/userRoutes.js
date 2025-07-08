@@ -1,12 +1,13 @@
 import User from "../models/user.js";
 
 import express from "express";
+import verfiyToken from "../middlewares/checkAuthmiddleware.js";
 
 const user = express.Router();
 
 // user.post("/", async function (req, res) {
 //   try {
-    // const newUser = new User(req.body);
+// const newUser = new User(req.body);
 //     const saveUser = await newUser.save();
 //     res.status(201).json(saveUser);
 //   } catch (err) {
@@ -14,7 +15,7 @@ const user = express.Router();
 //   }
 // });
 
-user.get("/", async (req, res) => {
+user.get("/", verfiyToken, async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
@@ -23,7 +24,7 @@ user.get("/", async (req, res) => {
   }
 });
 
-user.patch(`/:id`, async (req, res) => {
+user.patch(`/:id`, verfiyToken, async (req, res) => {
   const id = req.params.id;
   try {
     if (!id) {
@@ -40,7 +41,7 @@ user.patch(`/:id`, async (req, res) => {
   }
 });
 
-user.delete("/:id", async (req, res) => {
+user.delete("/:id", verfiyToken, async (req, res) => {
   try {
     const id = req.params.id;
     if (!id) {
