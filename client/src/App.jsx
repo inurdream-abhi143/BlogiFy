@@ -9,6 +9,8 @@ import Contact from "./Pages/Contact";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/Signup/SignUp";
 import { ToastContainer, toast } from "react-toastify";
+import UserProfile from "./UserProfile";
+import ProtectedRoutes from "./ProtectedRoutes";
 const App = () => {
   return (
     <>
@@ -21,6 +23,16 @@ const App = () => {
             <Route path="contact" element={<Contact />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
+
+            {/* Protected Routes   */}
+            <Route
+              path="profile"
+              element={
+                <ProtectedRoutes>
+                  <UserProfile />
+                </ProtectedRoutes>
+              }
+            />
           </Route>
           <Route path="/publisher/*" element={<PublisherLayout />} />
           <Route path="/admin/*" element={<AdminApp />} />

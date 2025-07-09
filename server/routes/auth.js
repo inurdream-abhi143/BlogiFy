@@ -29,10 +29,10 @@ authRouter.post("/login", async (req, res) => {
         expiresIn: "1h",
       }
     );
-    console.log("Entered email:", email);
-    console.log("User found:", user);
-    console.log("Password entered:", password);
-    console.log("Password match result:", passwordMatch);
+    // console.log("Entered email:", email);
+    // console.log("User found:", user);
+    // console.log("Password entered:", password);
+    // console.log("Password match result:", passwordMatch);
 
     let userInfo = {
       userId: user._id,

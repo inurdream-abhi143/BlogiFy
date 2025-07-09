@@ -35,19 +35,11 @@ const featuredBlogs = [
       "https://plus.unsplash.com/premium_photo-1661297453206-7f61228e5323?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     snippet: "Motivation fades. Habits don’t. Here’s how to build them...",
   },
-  {
-    id: 3,
-    title: "How to Stay Consistent as a Coder",
-    author: "CodeZen",
-    image:
-      "https://plus.unsplash.com/premium_photo-1661297453206-7f61228e5323?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    snippet: "Motivation fades. Habits don’t. Here’s how to build them...",
-  },
 ];
 
 const BlogList = () => {
   return (
-    <Box sx={{ py: 10, backgroundColor: "#f9fafb" }}>
+    <Box sx={{ py: 8, backgroundColor: "#f9fafb" }}>
       <Typography
         variant="h3"
         align="center"
@@ -56,13 +48,13 @@ const BlogList = () => {
         Featured Blogs
       </Typography>
 
-      <Grid container spacing={4} justifyContent="space-evenly">
+      <Grid container spacing={2} justifyContent="space-evenly">
         {featuredBlogs.map((blog) => (
           <Grid item xs={12} sm={6} md={4} key={blog.id}>
             <Card
               sx={{
                 position: "relative",
-                height: 600,
+                height: 550,
                 Width: "650px",
                 mx: "auto",
                 borderRadius: 4,

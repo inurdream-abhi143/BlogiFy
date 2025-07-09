@@ -33,7 +33,7 @@ const Navbar = () => {
       sx={{
         background: "linear-gradient(90deg, #1f2937 0%, #111827 100%)",
         boxShadow: 4,
-        height: "130px",
+        height: "100px",
         justifyContent: "center",
         px: 2,
       }}
@@ -45,7 +45,7 @@ const Navbar = () => {
           alignItems: "center",
           flexWrap: isMobile ? "wrap" : "nowrap",
           gap: isMobile ? 2 : 0,
-          minHeight: "150px !important", // Match the AppBar height
+          minHeight: "100px !important", // Match the AppBar height
         }}
       >
         {/* Logo */}
@@ -56,10 +56,10 @@ const Navbar = () => {
           sx={{
             color: "#facc15",
             textDecoration: "none",
-            fontWeight: "800",
+            fontWeight: "700",
             fontFamily: "'Raleway', sans-serif",
             pl: 2,
-            fontSize: isMobile ? "2.5rem" : "3.5rem",
+            fontSize: isMobile ? "2rem" : "3.4rem",
             lineHeight: 1,
           }}
         >
@@ -83,7 +83,7 @@ const Navbar = () => {
               component={Link}
               to={text === "Home" ? "/" : `/${text.toLowerCase()}`}
               sx={{
-                fontSize: isMobile ? "1rem" : "2rem",
+                fontSize: isMobile ? "1rem" : "1.4rem",
                 color: "#f3f4f6",
                 fontWeight: "600",
                 textTransform: "none",
@@ -111,53 +111,21 @@ const Navbar = () => {
             py: isMobile ? 1 : 2,
           }}
         >
-          {loginInfo && loginInfo.username ? (
-            <Typography
-              sx={{
-                color: "#facc15",
-                fontSize: "1.5rem",
-                fontWeight: 600,
-              }}
-            >
-              Welcome, {loginInfo.username}
-            </Typography>
-          ) : (
-            <Button
-              variant="contained"
-              startIcon={<RiLoginBoxLine size={22} />}
-              component={Link}
-              to="/login"
-              sx={{
-                fontSize: "22px",
-                fontWeight: 600,
-                backgroundColor: "#facc15",
-                color: "#1f2937",
-                borderRadius: "8px",
-                textTransform: "none",
-                px: 3,
-                py: 1.5,
-                "&:hover": {
-                  backgroundColor: "#fde047",
-                },
-              }}
-            >
-              Login
-            </Button>
-          )}
           <TextField
             placeholder="Search blogs..."
             size="small"
             sx={{
-              width: isMobile ? "100%" : "450px",
+              width: isMobile ? "100%" : "400px",
               input: {
                 color: "white",
                 backgroundColor: "#374151",
                 padding: "14px 16px",
                 fontSize: "1.2rem",
+                borderRadius: "25px",
                 height: "30px", // this height adds on top of padding
               },
               "& .MuiOutlinedInput-root": {
-                height: "55px", // final input height
+                height: "50px", // final input height
                 borderRadius: "12px",
               },
               "& fieldset": { border: "none" },
@@ -185,6 +153,46 @@ const Navbar = () => {
               ),
             }}
           />
+          {loginInfo && loginInfo.username ? (
+            <Typography
+              component={Link}
+              to="/profile"
+              sx={{
+                color: "#facc15",
+                fontSize: "1.5rem",
+                fontWeight: 600,
+                textDecoration: "none",
+                cursor: "pointer",
+                "&:hover": {
+                  fontSize: "1.8",
+                },
+              }}
+            >
+              {loginInfo.username || "Guest"}
+            </Typography>
+          ) : (
+            <Button
+              variant="contained"
+              startIcon={<RiLoginBoxLine size={22} />}
+              component={Link}
+              to="/login"
+              sx={{
+                fontSize: "22px",
+                fontWeight: 600,
+                backgroundColor: "#facc15",
+                color: "#1f2937",
+                borderRadius: "8px",
+                textTransform: "none",
+                px: 3,
+                py: 1.5,
+                "&:hover": {
+                  backgroundColor: "#fde047",
+                },
+              }}
+            >
+              Login
+            </Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>
