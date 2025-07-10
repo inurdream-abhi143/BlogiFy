@@ -18,6 +18,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "bcryptjs": "^3.0.2",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.59.0",

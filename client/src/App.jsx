@@ -18,18 +18,25 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
-            <Route path="blogs" element={<AllBlogs />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
 
-            {/* Protected Routes   */}
+            {/* Protected Routes  */}
             <Route
               path="profile"
               element={
                 <ProtectedRoutes>
                   <UserProfile />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="blogs"
+              element={
+                <ProtectedRoutes>
+                  <AllBlogs />
                 </ProtectedRoutes>
               }
             />

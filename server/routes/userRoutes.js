@@ -44,6 +44,8 @@ user.patch(`/:id`, verfiyToken, async (req, res) => {
 user.delete("/:id", verfiyToken, async (req, res) => {
   try {
     const id = req.params.id;
+    console.log(id);
+
     if (!id) {
       res.status(404);
       return res.send("No id found inside a collection ");

@@ -12,10 +12,12 @@ import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import React, { useContext } from "react";
 import { LoginContext } from "./contexts/LoginContext";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const { loginInfo } = useContext(LoginContext);
+  const { loginInfo, setLoginInfo } = useContext(LoginContext);
 
   const username = loginInfo?.username || "Guest User";
   const email = loginInfo?.email || "guest@example.com";
@@ -33,6 +35,46 @@ const UserProfile = () => {
 
     navigate("/");
   };
+
+  const handleDelete = () => {
+    debugger;
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.error("Failed to get token");
+      return;
+    }
+    try {
+      const decoded = jwtDecode(token);
+      const id = decoded.id;
+
+      fetch(`http://localhost:3000/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          console.log("==>", res);
+          if (!res.ok) {
+            toast.error("Failed to delete User");
+          } else {
+            toast.success("User deleted Successfully ");
+            localStorage.removeItem("token");
+            localStorage.removeItem("userInfo");
+            setLoginInfo(null);
+            navigate("/");
+          }
+        })
+        .catch((error) => {
+          toast.error(`Error deleting account: ${error.message}`);
+        });
+    } catch (err) {
+      toast.error("Invalid or Expired Token");
+    }
+  };
+
   return (
     <Container maxWidth="md" sx={{ mt: 10, mb: 8 }}>
       <Paper
@@ -104,6 +146,7 @@ const UserProfile = () => {
             variant="outlined"
             color="error"
             sx={{ textTransform: "none", px: 4 }}
+            onClick={handleDelete}
           >
             Delete Account
           </Button>
