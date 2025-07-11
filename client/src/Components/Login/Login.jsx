@@ -15,8 +15,10 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { LoginContext } from "../../contexts/LoginContext";
 import { toast } from "react-toastify";
-
+import { useAuth } from "../../contexts/AuthContext";
+import { jwtDecode } from "jwt-decode";
 const Login = () => {
+  const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
 
   const {
@@ -27,7 +29,6 @@ const Login = () => {
 
   const { loginInfo, setLoginInfo } = useContext(LoginContext);
   const onSubmit = (data) => {
-    debugger;
     const loginInfo = {
       email: data.email,
       password: data.password,
@@ -56,7 +57,21 @@ const Login = () => {
         setLoginInfo(info);
         localStorage.setItem("userInfo", JSON.stringify(info));
         toast.success("Login successful! ");
-        navigate("/");
+        const token = userInfo.token;
+        const decode = jwtDecode(token);
+        const role = decode.role;
+
+        setAuth({ token, role });
+        console.log("token", token);
+        console.log("decode", decode);
+        console.log(role);
+        if (role === "admin") {
+          navigate("/admin/");
+        } else if (role === "publisher") {
+          navigate("/publisher/");
+        } else {
+          navigate("/");
+        }
       })
       .catch((err) => {
         toast.error(`login failed ${err.message}`);

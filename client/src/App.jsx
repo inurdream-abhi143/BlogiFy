@@ -8,9 +8,10 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import Login from "./Components/Login/Login";
 import SignUp from "./Components/Signup/SignUp";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import UserProfile from "./UserProfile";
 import ProtectedRoutes from "./ProtectedRoutes";
+import RoleProtectedRoutes from "./RoleProtectedRoutes";
 const App = () => {
   return (
     <>
@@ -41,8 +42,24 @@ const App = () => {
               }
             />
           </Route>
-          <Route path="/publisher/*" element={<PublisherLayout />} />
-          <Route path="/admin/*" element={<AdminApp />} />
+          <Route
+            path="/publisher/*"
+            element={
+              <RoleProtectedRoutes requiredRole="publisher">
+                <PublisherLayout />
+              </RoleProtectedRoutes>
+            }
+          />
+
+          {/* admin protected routes */}
+          <Route
+            path="/admin/*"
+            element={
+              <RoleProtectedRoutes requiredRole="admin">
+                <AdminApp />
+              </RoleProtectedRoutes>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>

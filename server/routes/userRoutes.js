@@ -24,7 +24,7 @@ user.get("/", verfiyToken, async (req, res) => {
   }
 });
 
-user.patch(`/:id`, verfiyToken, async (req, res) => {
+user.patch(`/:id`, async (req, res) => {
   const id = req.params.id;
   try {
     if (!id) {

@@ -5,7 +5,7 @@ const LoginContext = createContext(null);
 
 const LoginContextProvider = ({ children }) => {
   const [loginInfo, setLoginInfo] = useState(null);
-  const [isAuthenticate, setIsAuthenticate] = useState();
+  // const [isAuthenticate, setIsAuthenticate] = useState();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("userInfo");
