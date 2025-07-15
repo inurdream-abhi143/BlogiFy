@@ -1,17 +1,4 @@
-import {
-  Box,
-  Button,
-  Container,
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
-  Typography,
-  Paper,
-} from "@mui/material";
 import React from "react";
-import { useEffect } from "react";
-
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -27,8 +14,6 @@ const SignUp = () => {
   } = useForm();
 
   const onRegisterUser = (data) => {
-    console.log("Form Submitted:", data);
-
     const userInfo = {
       username: data.username,
       email: data.email,
@@ -40,65 +25,56 @@ const SignUp = () => {
   };
 
   const userSignup = (userInfo) => {
-    // console.log("hello", userInfo);
-    // debugger;
     fetch("http://localhost:3000/auth/signup", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(userInfo),
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Faied to  signup ");
+        if (!res.ok) throw new Error("Failed to signup");
         return res.json();
       })
-      .then((newUser) => {
-        toast.success("User signup successfuly");
+      .then(() => {
+        toast.success("User signed up successfully");
       })
       .catch((err) => {
-        toast.warning(`signup error, ${err.message}`);
+        toast.warning(`Signup error: ${err.message}`);
       });
   };
+
   return (
-    <Container
-      maxWidth="sm"
-      sx={{
-        minHeight: "80vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "650px",
-      }}
-    >
-      <Paper
-        elevation={5}
-        sx={{
-          p: 4,
-          borderRadius: 3,
-          width: "100%",
-          bgcolor: "#f9f9f9",
-        }}
-      >
-        <Typography variant="h4" align="center" gutterBottom>
+    <div className="container d-flex align-items-center justify-content-center min-vh-100">
+      <div className="card p-4 shadow-sm w-100" style={{ maxWidth: "600px" }}>
+        <h2 className="text-center mb-4 fw-bold text-primary">
           Sign Up for BlogiFy
-        </Typography>
-        <form onSubmit={handleSubmit(onRegisterUser)}>
+        </h2>
+        <form onSubmit={handleSubmit(onRegisterUser)} noValidate>
           {/* Username */}
-          <FormControl fullWidth margin="normal" error={!!errors.username}>
-            <InputLabel htmlFor="username">Username</InputLabel>
-            <Input
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label fw-semibold">
+              Username
+            </label>
+            <input
               id="username"
+              type="text"
+              className={`form-control ${errors.username ? "is-invalid" : ""}`}
               {...register("username", { required: "Username is required" })}
             />
-            <FormHelperText>
-              {errors.username?.message || "Enter your username"}
-            </FormHelperText>
-          </FormControl>
+            <div className="form-text">Enter your username</div>
+            {errors.username && (
+              <div className="invalid-feedback">{errors.username.message}</div>
+            )}
+          </div>
 
           {/* Email */}
-          <FormControl fullWidth margin="normal" error={!!errors.email}>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <Input
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label fw-semibold">
+              Email
+            </label>
+            <input
               id="email"
+              type="email"
+              className={`form-control ${errors.email ? "is-invalid" : ""}`}
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -107,17 +83,21 @@ const SignUp = () => {
                 },
               })}
             />
-            <FormHelperText>
-              {errors.email?.message || "Enter your email"}
-            </FormHelperText>
-          </FormControl>
+            <div className="form-text">Enter your email</div>
+            {errors.email && (
+              <div className="invalid-feedback">{errors.email.message}</div>
+            )}
+          </div>
 
           {/* Password */}
-          <FormControl fullWidth margin="normal" error={!!errors.password}>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label fw-semibold">
+              Password
+            </label>
+            <input
               id="password"
               type="password"
+              className={`form-control ${errors.password ? "is-invalid" : ""}`}
               {...register("password", {
                 required: "Password is required",
                 minLength: {
@@ -126,68 +106,60 @@ const SignUp = () => {
                 },
               })}
             />
-            <FormHelperText>
-              {errors.password?.message || "Enter a secure password"}
-            </FormHelperText>
-          </FormControl>
+            <div className="form-text">Enter a secure password</div>
+            {errors.password && (
+              <div className="invalid-feedback">{errors.password.message}</div>
+            )}
+          </div>
 
-          {/* Confirm Password — YOUR TURN to validate match */}
-          <FormControl
-            fullWidth
-            margin="normal"
-            error={!!errors.confirmPassword}
-          >
-            <InputLabel htmlFor="confirm-password">Confirm Password</InputLabel>
-            <Input
+          {/* Confirm Password */}
+          <div className="mb-3">
+            <label
+              htmlFor="confirm-password"
+              className="form-label fw-semibold"
+            >
+              Confirm Password
+            </label>
+            <input
               id="confirm-password"
               type="password"
+              className={`form-control ${
+                errors.confirmPassword ? "is-invalid" : ""
+              }`}
               {...register("confirmPassword", {
                 required: "Please confirm your password",
-
                 validate: (value) =>
-                  value === watch("password") || "password does not Match ",
+                  value === watch("password") || "Password does not match",
               })}
             />
-            <FormHelperText>
-              {errors.confirmPassword?.message || "Re-enter your password"}
-            </FormHelperText>
-          </FormControl>
+            <div className="form-text">Re-enter your password</div>
+            {errors.confirmPassword && (
+              <div className="invalid-feedback">
+                {errors.confirmPassword.message}
+              </div>
+            )}
+          </div>
 
-          <Box sx={{ textAlign: "center", mt: 3 }}>
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              sx={{ width: "60%", py: 1 }}
-            >
+          {/* Submit Button */}
+          <div className="d-grid mt-4">
+            <button type="submit" className="btn btn-primary py-2 fw-semibold">
               Create Account
-            </Button>
-            <Typography
-              sx={{
-                fontSize: "1.2rem",
-                m: ".5rem",
-                mt: "1rem",
-                textAlign: "center",
-              }}
+            </button>
+          </div>
+
+          {/* Already have an account? */}
+          <div className="text-center mt-3">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="fw-bold text-decoration-none text-primary"
             >
-              Have an Account{" "}
-              <span>
-                <Link
-                  to="/login"
-                  style={{
-                    textDecoration: "none",
-                    fontWeight: "bold",
-                    color: "#1976d2",
-                  }}
-                >
-                  Login
-                </Link>
-              </span>
-            </Typography>
-          </Box>
+              Login
+            </Link>
+          </div>
         </form>
-      </Paper>
-    </Container>
+      </div>
+    </div>
   );
 };
 

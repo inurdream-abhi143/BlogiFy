@@ -24,6 +24,20 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["active", "suspend"],
+      default: "active",
+    },
+    publisherRequest: {
+      type: Boolean,
+      default: false,
+    },
+    publisherStatus: {
+      type: String,
+      enum: ["none", "pending", "approved", "rejected"],
+      default: "none",
+    },
   },
   { timestamps: true }
 );

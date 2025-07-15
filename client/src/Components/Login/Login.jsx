@@ -1,25 +1,15 @@
-import {
-  Box,
-  Button,
-  Container,
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
-  Typography,
-  Paper,
-} from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
 import { LoginContext } from "../../contexts/LoginContext";
 import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
+
 const Login = () => {
   const { auth, setAuth } = useAuth();
   const navigate = useNavigate();
+  const { loginInfo, setLoginInfo } = useContext(LoginContext);
 
   const {
     register,
@@ -27,7 +17,6 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const { loginInfo, setLoginInfo } = useContext(LoginContext);
   const onSubmit = (data) => {
     const loginInfo = {
       email: data.email,
@@ -35,6 +24,7 @@ const Login = () => {
     };
     checkLogin(loginInfo);
   };
+
   const checkLogin = (loginInfo) => {
     fetch("http://localhost:3000/auth/login", {
       method: "POST",
@@ -42,9 +32,7 @@ const Login = () => {
       body: JSON.stringify(loginInfo),
     })
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("No data found");
-        }
+        if (!res.ok) throw new Error("No data found");
         return res.json();
       })
       .then((userInfo) => {
@@ -53,18 +41,16 @@ const Login = () => {
           username: userInfo.username,
           email: userInfo.email,
         };
-        // console.log(info);
         setLoginInfo(info);
         localStorage.setItem("userInfo", JSON.stringify(info));
-        toast.success("Login successful! ");
+        toast.success("Login successful!");
+
         const token = userInfo.token;
         const decode = jwtDecode(token);
         const role = decode.role;
 
         setAuth({ token, role });
-        console.log("token", token);
-        console.log("decode", decode);
-        console.log(role);
+
         if (role === "admin") {
           navigate("/admin/");
         } else if (role === "publisher") {
@@ -74,37 +60,26 @@ const Login = () => {
         }
       })
       .catch((err) => {
-        toast.error(`login failed ${err.message}`);
+        toast.error(`Login failed: ${err.message}`);
       });
-
-    // console.log(loginInfo);
   };
 
   return (
-    <Container
-      maxWidth="sm"
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Paper
-        elevation={4}
-        sx={{ p: 4, borderRadius: 3, bgcolor: "#f5f5f5", width: "100%" }}
-      >
-        <Typography variant="h4" align="center" gutterBottom>
+    <div className="container d-flex align-items-center justify-content-center min-vh-100">
+      <div className="card p-4 shadow-sm w-100" style={{ maxWidth: "500px" }}>
+        <h2 className="text-center mb-4 fw-bold text-primary">
           Welcome to Blogify
-        </Typography>
-
-        <form onSubmit={handleSubmit(onSubmit)}>
+        </h2>
+        <form onSubmit={handleSubmit(onSubmit)} noValidate>
           {/* Email */}
-          <FormControl fullWidth margin="normal" error={!!errors.email}>
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <Input
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label fw-semibold">
+              Email
+            </label>
+            <input
               id="email"
               type="email"
+              className={`form-control ${errors.email ? "is-invalid" : ""}`}
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -113,17 +88,21 @@ const Login = () => {
                 },
               })}
             />
-            <FormHelperText>
-              {errors.email?.message || "Enter your registered email"}
-            </FormHelperText>
-          </FormControl>
+            <div className="form-text">Enter your registered email</div>
+            {errors.email && (
+              <div className="invalid-feedback">{errors.email.message}</div>
+            )}
+          </div>
 
           {/* Password */}
-          <FormControl fullWidth margin="normal" error={!!errors.password}>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label fw-semibold">
+              Password
+            </label>
+            <input
               id="password"
               type="password"
+              className={`form-control ${errors.password ? "is-invalid" : ""}`}
               {...register("password", {
                 required: "Password is required",
                 minLength: {
@@ -132,32 +111,32 @@ const Login = () => {
                 },
               })}
             />
-            <FormHelperText>
-              {errors.password?.message || "Enter your password"}
-            </FormHelperText>
-          </FormControl>
+            <div className="form-text">Enter your password</div>
+            {errors.password && (
+              <div className="invalid-feedback">{errors.password.message}</div>
+            )}
+          </div>
 
-          {/* Submit Button */}
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ width: "60%", py: 1 }}
-            >
+          {/* Submit */}
+          <div className="d-grid mt-4">
+            <button type="submit" className="btn btn-primary py-2 fw-semibold">
               Login
-            </Button>
-          </Box>
+            </button>
+          </div>
 
-          {/* Link to Sign Up */}
-          <Typography sx={{ mt: 2, textAlign: "center", fontSize: "1rem" }}>
+          {/* Sign Up Link */}
+          <div className="text-center mt-3">
             Don’t have an account?{" "}
-            <Link to="/signup" style={{ fontWeight: "bold", color: "#1976d2" }}>
+            <Link
+              to="/signup"
+              className="fw-bold text-decoration-none text-primary"
+            >
               Sign Up
             </Link>
-          </Typography>
+          </div>
         </form>
-      </Paper>
-    </Container>
+      </div>
+    </div>
   );
 };
 

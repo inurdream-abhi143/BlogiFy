@@ -60,4 +60,19 @@ user.delete("/:id", verfiyToken, async (req, res) => {
   }
 });
 
+user.patch("/publisher-request/:id", verfiyToken, async (req, res) => {
+  try {
+    const id = req.userId;
+
+    if (!id) {
+      return res.status(404).send("No id Found");
+    }
+    const newData = req.body;
+    const user = await User.findByIdAndUpdate(id, newData, { new: true });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+});
+
 export default user;

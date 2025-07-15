@@ -1,14 +1,3 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Container,
-  Typography,
-  Paper,
-  Stack,
-} from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import React, { useContext } from "react";
 import { LoginContext } from "./contexts/LoginContext";
 import { useNavigate } from "react-router-dom";
@@ -32,18 +21,17 @@ const UserProfile = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userInfo");
-
     navigate("/");
   };
 
   const handleDelete = () => {
-    debugger;
     const token = localStorage.getItem("token");
 
     if (!token) {
       toast.error("Failed to get token");
       return;
     }
+
     try {
       const decoded = jwtDecode(token);
       const id = decoded.id;
@@ -56,11 +44,10 @@ const UserProfile = () => {
         },
       })
         .then((res) => {
-          console.log("==>", res);
           if (!res.ok) {
             toast.error("Failed to delete User");
           } else {
-            toast.success("User deleted Successfully ");
+            toast.success("User deleted successfully");
             localStorage.removeItem("token");
             localStorage.removeItem("userInfo");
             setLoginInfo(null);
@@ -76,83 +63,43 @@ const UserProfile = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 10, mb: 8 }}>
-      <Paper
-        elevation={3}
-        sx={{
-          p: 6,
-          borderRadius: 4,
-          textAlign: "center",
-          backgroundColor: "#ffffff", // 🟨 Set clean white background
-          border: "1px solid #e0e0e0", // 🟦 Subtle border for distinction
-        }}
-      >
-        <Avatar
-          sx={{
-            bgcolor: "#3f51b5",
-            width: 100,
-            height: 100,
-            fontSize: "2.5rem",
-            margin: "0 auto 1.5rem",
-          }}
-        >
-          {initials}
-        </Avatar>
-
-        {/* Username Row */}
-        <Stack
-          direction="row"
-          spacing={1}
-          alignItems="center"
-          justifyContent="center"
-          mb={1}
-        >
-          <AccountCircleIcon sx={{ color: "#555" }} />
-          <Typography variant="h5" fontWeight="bold">
-            {username}
-          </Typography>
-        </Stack>
-
-        {/* Email Row */}
-        <Stack
-          direction="row"
-          spacing={1}
-          alignItems="center"
-          justifyContent="center"
-          mb={2}
-        >
-          <AlternateEmailIcon sx={{ color: "#555" }} />
-          <Typography variant="body1" color="text.primary">
-            {email}
-          </Typography>
-        </Stack>
-
-        {/* Action Buttons */}
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={2}
-          justifyContent="center"
-          mt={4}
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ textTransform: "none", px: 4 }}
-            onClick={handleLogout}
+    <div className="container my-5 d-flex justify-content-center">
+      <div className="card p-4 shadow w-100" style={{ maxWidth: "600px" }}>
+        <div className="d-flex flex-column align-items-center text-center">
+          <div
+            className="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center mb-4"
+            style={{ width: "100px", height: "100px", fontSize: "2.5rem" }}
           >
-            Logout
-          </Button>
-          <Button
-            variant="outlined"
-            color="error"
-            sx={{ textTransform: "none", px: 4 }}
-            onClick={handleDelete}
-          >
-            Delete Account
-          </Button>
-        </Stack>
-      </Paper>
-    </Container>
+            {initials}
+          </div>
+
+          {/* Username */}
+          <div className="d-flex align-items-center mb-2">
+            <i className="bi bi-person-circle me-2 text-secondary fs-5"></i>
+            <h4 className="fw-bold m-0">{username}</h4>
+          </div>
+
+          {/* Email */}
+          <div className="d-flex align-items-center mb-4">
+            <i className="bi bi-envelope-at-fill me-2 text-secondary fs-6"></i>
+            <p className="m-0">{email}</p>
+          </div>
+
+          {/* Buttons */}
+          <div className="d-flex flex-column flex-sm-row gap-2 mt-3 w-100 justify-content-center">
+            <button className="btn btn-primary px-4" onClick={handleLogout}>
+              Logout
+            </button>
+            <button
+              className="btn btn-outline-danger px-4"
+              onClick={handleDelete}
+            >
+              Delete Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
