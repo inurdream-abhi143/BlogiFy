@@ -11,6 +11,7 @@ import App from "./App.jsx";
 import { LoginContextProvider } from "./contexts/LoginContext.jsx";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

@@ -1,20 +1,20 @@
-import { Container, Grid } from "@mui/material";
 import React from "react";
-import { Outlet } from "react-router-dom";
 import AdminNavbar from "./Components/AdminNavbar/AdminNavbar";
+import { Outlet } from "react-router-dom";
 
 const AdminLayout = () => {
   return (
-    <>
-      <Grid container spacing={0.5}>
-        <Grid item xs={12} md={3}>
-          <AdminNavbar />
-        </Grid>
-        <Grid item xs={12} md={9}>
-          <Outlet />
-        </Grid>
-      </Grid>
-    </>
+    <div className="d-flex" style={{ minHeight: "100vh" }}>
+      {/* Sidebar */}
+      <div className="bg-dark text-white" style={{ width: "250px" }}>
+        <AdminNavbar />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-grow-1 p-0 bg-light">
+        <Outlet />
+      </div>
+    </div>
   );
 };
 

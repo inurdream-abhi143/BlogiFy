@@ -1,201 +1,77 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Box,
-  Button,
-  IconButton,
-  TextField,
-  InputAdornment,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
 import { FaSearch } from "react-icons/fa";
 import { RiLoginBoxLine } from "react-icons/ri";
-import { useContext } from "react";
 import { LoginContext } from "../../contexts/LoginContext";
-// import { useEffect } from "react";
 
 const Navbar = () => {
   const { loginInfo } = useContext(LoginContext);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
-  // useEffect(() => {
-  //   console.log(loginInfo);
-  // });
 
   return (
-    <AppBar
-      position="sticky"
-      sx={{
-        background: "linear-gradient(90deg, #1f2937 0%, #111827 100%)",
-        boxShadow: 4,
-        height: "100px",
-        justifyContent: "center",
-        px: 2,
-      }}
-    >
-      <Toolbar
-        disableGutters
-        sx={{
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: isMobile ? "wrap" : "nowrap",
-          gap: isMobile ? 2 : 0,
-          minHeight: "100px !important", // Match the AppBar height
-        }}
-      >
-        {/* Logo */}
-        <Typography
-          variant="h3"
-          component={Link}
-          to="/"
-          sx={{
-            color: "#facc15",
-            textDecoration: "none",
-            fontWeight: "700",
-            fontFamily: "'Raleway', sans-serif",
-            pl: 2,
-            fontSize: isMobile ? "2rem" : "3.4rem",
-            lineHeight: 1,
-          }}
-        >
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark py-3 px-4 sticky-top shadow-sm">
+      <div className="container-fluid">
+        {/* Brand */}
+        <Link className="navbar-brand fw-bold fs-2 text-warning" to="/">
           BlogiFy
-        </Typography>
+        </Link>
 
-        {/* Nav Links */}
-        <Box
-          sx={{
-            display: "flex",
-            gap: 3,
-            alignItems: "center",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            py: isMobile ? 1 : 2,
-          }}
+        {/* Toggler */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
         >
-          {["Home", "Blogs", "About", "Contact"].map((text) => (
-            <Button
-              key={text}
-              component={Link}
-              to={text === "Home" ? "/" : `/${text.toLowerCase()}`}
-              sx={{
-                fontSize: isMobile ? "1rem" : "1.4rem",
-                color: "#f3f4f6",
-                fontWeight: "600",
-                textTransform: "none",
-                transition: "all 0.3s ease",
-                "&:hover": {
-                  color: "#facc15",
-                  transform: "scale(1.05)",
-                },
-              }}
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* Collapse content */}
+        <div className="collapse navbar-collapse" id="navbarContent">
+          {/* Nav Links */}
+          <ul className="navbar-nav mx-auto mb-2 mb-lg-0 gap-3">
+            {["Home", "Blogs", "About", "Contact"].map((page) => (
+              <li className="nav-item" key={page}>
+                <Link
+                  className="nav-link text-light fw-semibold"
+                  to={page === "Home" ? "/" : `/${page.toLowerCase()}`}
+                >
+                  {page}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Right side */}
+          <form className="d-flex align-items-center me-3" role="search">
+            <input
+              className="form-control rounded-start-pill border-0 shadow-sm px-3"
+              type="search"
+              placeholder="Search blogs..."
+              aria-label="Search"
+              style={{ minWidth: "200px" }}
+            />
+            <button
+              className="btn btn-warning rounded-end-pill px-3"
+              type="submit"
             >
-              {text}
-            </Button>
-          ))}
-        </Box>
+              <FaSearch />
+            </button>
+          </form>
 
-        {/* Login + Search */}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
-            flexWrap: isMobile ? "wrap" : "nowrap",
-            justifyContent: "center",
-            px: 2,
-            py: isMobile ? 1 : 2,
-          }}
-        >
-          <TextField
-            placeholder="Search blogs..."
-            size="small"
-            sx={{
-              width: isMobile ? "100%" : "400px",
-              input: {
-                color: "white",
-                backgroundColor: "#374151",
-                padding: "14px 16px",
-                fontSize: "1.2rem",
-                borderRadius: "25px",
-                height: "30px", // this height adds on top of padding
-              },
-              "& .MuiOutlinedInput-root": {
-                height: "50px", // final input height
-                borderRadius: "12px",
-              },
-              "& fieldset": { border: "none" },
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    type="submit"
-                    sx={{
-                      color: "#1f2937",
-                      backgroundColor: "#facc15",
-                      borderRadius: "10px",
-                      width: "48px",
-                      height: "48px",
-                      "&:hover": {
-                        backgroundColor: "#fde047",
-                      },
-                      fontSize: "22px",
-                    }}
-                  >
-                    <FaSearch size={22} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+          {/* Login or Username */}
           {loginInfo && loginInfo.username ? (
-            <Typography
-              component={Link}
-              to="/profile"
-              sx={{
-                color: "#facc15",
-                fontSize: "1.5rem",
-                fontWeight: 600,
-                textDecoration: "none",
-                cursor: "pointer",
-                "&:hover": {
-                  fontSize: "1.8",
-                },
-              }}
-            >
-              {loginInfo.username || "Guest"}
-            </Typography>
+            <Link to="/profile" className="btn btn-outline-warning fw-semibold">
+              {loginInfo.username}
+            </Link>
           ) : (
-            <Button
-              variant="contained"
-              startIcon={<RiLoginBoxLine size={22} />}
-              component={Link}
-              to="/login"
-              sx={{
-                fontSize: "22px",
-                fontWeight: 600,
-                backgroundColor: "#facc15",
-                color: "#1f2937",
-                borderRadius: "8px",
-                textTransform: "none",
-                px: 3,
-                py: 1.5,
-                "&:hover": {
-                  backgroundColor: "#fde047",
-                },
-              }}
-            >
+            <Link to="/login" className="btn btn-warning fw-semibold">
+              <RiLoginBoxLine className="me-2" />
               Login
-            </Button>
+            </Link>
           )}
-        </Box>
-      </Toolbar>
-    </AppBar>
+        </div>
+      </div>
+    </nav>
   );
 };
 
