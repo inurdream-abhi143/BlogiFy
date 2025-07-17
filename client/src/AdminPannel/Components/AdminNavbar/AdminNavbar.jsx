@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navItems = [
   { label: "Dashboard", path: "/admin/dashboard" },
@@ -11,6 +11,13 @@ const navItems = [
 
 const AdminNavbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userInfo");
+    navigate("/");
+  };
 
   return (
     <div
@@ -40,7 +47,9 @@ const AdminNavbar = () => {
       </div>
 
       <div className="text-center mt-3">
-        <button className="btn btn-danger w-100 mb-4">Logout</button>
+        <button className="btn btn-danger w-100 mb-4" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </div>
   );

@@ -4,6 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import AdminLayout from "./AdminLayout";
 import AdminDashBoard from "./Pages/AdminDashBoard";
 import UsersManage from "./Pages/UsersManage";
+import PublisherRequests from "./Pages/publisherRequests";
+import PublisherManage from "./Pages/PublisherManage";
 
 const AdminApp = () => {
   return (
@@ -16,9 +18,10 @@ const AdminApp = () => {
         {/* Nested routes */}
         <Route path="dashboard" element={<AdminDashBoard />} />
         <Route path="users" element={<UsersManage />} />
-        <Route path="publishers" element={<h1>Publishers List</h1>} />
+        <Route path="publishers" element={<PublisherManage />} />
         <Route path="blogs" element={<h1>Blogs History</h1>} />
         <Route path="pendingblogs" element={<h1>Pending Blogs</h1>} />
+        <Route path="publisherReq" element={<PublisherRequests />} />
       </Route>
     </Routes>
   );

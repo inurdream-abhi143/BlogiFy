@@ -29,7 +29,7 @@ const HeroBanner = () => {
           },
         }
       );
-      console.log("working ", res.data);
+      // consol("Success", res.data);
       toast.success("publisher request sent ");
     } catch (err) {
       toast.error("Something went wrong with the request");

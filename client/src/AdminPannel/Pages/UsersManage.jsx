@@ -21,7 +21,6 @@ const UsersManage = () => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        
       });
       setUserData(res.data);
     } catch (err) {
@@ -30,7 +29,7 @@ const UsersManage = () => {
   };
 
   return (
-    <div className="container-fluid py-4 px-3">
+    <div className="container-fluid pb-4 px-3">
       {/* Header */}
       <header className="bg-dark text-white py-3 px-4 mb-4 rounded d-flex justify-content-between align-items-center shadow-sm">
         <h2 className="m-0 fw-bold">
@@ -62,7 +61,7 @@ const UsersManage = () => {
                 .map((user, i) => (
                   <tr key={user._id}>
                     <td>{i + 1}</td>
-                    <td className="text-break">{user._id.slice(-6)}</td>
+                    <td className="text-break">{user._id.slice(0, 5)}</td>
                     <td>{user.username}</td>
                     <td className="text-break">{user.email}</td>
                     <td>

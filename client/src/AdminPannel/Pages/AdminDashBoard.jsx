@@ -2,8 +2,10 @@ import React from "react";
 import { MdArticle, MdPendingActions } from "react-icons/md";
 import { FaUserTie, FaUsers } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashBoard = () => {
+  const navigate = useNavigate();
   const stats = [
     { label: "Total Blogs", value: 0, icon: <MdArticle />, color: "primary" },
     { label: "Publishers", value: 0, icon: <FaUserTie />, color: "success" },
@@ -16,6 +18,9 @@ const AdminDashBoard = () => {
     },
   ];
 
+  const handlePublisherReq = () => {
+    navigate("/admin/publisherReq");
+  };
   return (
     <div className="container-fluid px-4 py-4">
       {/* Header */}
@@ -62,7 +67,6 @@ const AdminDashBoard = () => {
                 ✏️ Publisher Request by <b>“JohnDoe”</b>{" "}
                 <span className="text-muted small">· 2 hrs ago</span>
               </li>
-            
             </ul>
           </div>
         </div>
@@ -73,7 +77,10 @@ const AdminDashBoard = () => {
             <div className="card-header fw-bold bg-light">⚡ Quick Actions</div>
             <div className="card-body d-grid gap-3">
               <button className="btn btn-outline-primary">Approve Blogs</button>
-              <button className="btn btn-outline-success">
+              <button
+                className="btn btn-outline-success"
+                onClick={handlePublisherReq}
+              >
                 Publisher Requests
               </button>
               <button className="btn btn-outline-warning">Suspend User</button>

@@ -9,12 +9,16 @@ import { LoginContextProvider } from "./contexts/LoginContext.jsx";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { GetUsersProvider } from "./contexts/GetUsersContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <LoginContextProvider>
-        <App />
+        <GetUsersProvider>
+          <App />
+        </GetUsersProvider>
+
         <ToastContainer
           position="top-center"
           autoClose={2000}
