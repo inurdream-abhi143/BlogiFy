@@ -2,7 +2,7 @@ import React from "react";
 import { MdArticle, MdPendingActions } from "react-icons/md";
 import { FaUserTie, FaUsers } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminDashBoard = () => {
   const navigate = useNavigate();
@@ -18,9 +18,6 @@ const AdminDashBoard = () => {
     },
   ];
 
-  const handlePublisherReq = () => {
-    navigate("/admin/publisherReq");
-  };
   return (
     <div className="container-fluid px-4 py-4">
       {/* Header */}
@@ -75,16 +72,38 @@ const AdminDashBoard = () => {
         <div className="col-md-6 mb-4">
           <div className="card shadow h-100">
             <div className="card-header fw-bold bg-light">⚡ Quick Actions</div>
-            <div className="card-body d-grid gap-3">
-              <button className="btn btn-outline-primary">Approve Blogs</button>
-              <button
-                className="btn btn-outline-success"
-                onClick={handlePublisherReq}
-              >
-                Publisher Requests
-              </button>
-              <button className="btn btn-outline-warning">Suspend User</button>
-              {/* 😈 you finish this 25% – maybe add “View Reports” or “Settings” */}
+            <div className="card-body">
+              <div className="row g-3">
+                <div className="col-12 col-sm-6">
+                  <button className="btn btn-primary w-100 py-4 d-flex align-items-center justify-content-center gap-2">
+                    <MdArticle /> Approve Blogs
+                  </button>
+                </div>
+                <div className="col-12 col-sm-6">
+                  <Link
+                    to="/admin/publisherReq"
+                    className="text-decoration-none"
+                  >
+                    <button className="btn btn-success w-100  py-4 d-flex align-items-center justify-content-center gap-2">
+                      <FaUserTie />
+                      Publisher Requests
+                    </button>
+                  </Link>
+                </div>
+                <div className="col-12 col-sm-6">
+                  <button className="btn btn-warning w-100  py-4 d-flex align-items-center justify-content-center gap-2">
+                    <FaUsers /> Suspended Users
+                  </button>
+                </div>
+                <div className="col-12 col-sm-6">
+                  <Link to="/admin/adminblog" className="text-decoration-none">
+                    <button className="btn btn-outline-dark w-100  py-4 d-flex align-items-center justify-content-center gap-2">
+                      <MdArticle />
+                      Add Blog
+                    </button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>

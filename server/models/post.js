@@ -24,6 +24,7 @@ const blogPostSchema = new Schema(
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],
+      default: "pending",
     },
     coverImage: {
       type: String,
@@ -43,6 +44,13 @@ const blogPostSchema = new Schema(
     comments: {
       type: Number,
       default: 0,
+    },
+    reaTime: {
+      type: String,
+    },
+    category: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true }

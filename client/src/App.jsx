@@ -12,6 +12,7 @@ import SignUp from "./Components/Signup/SignUp";
 import UserProfile from "./UserProfile";
 import ProtectedRoutes from "./ProtectedRoutes";
 import RoleProtectedRoutes from "./RoleProtectedRoutes";
+import PublisherApp from "./Publisher/PublisherApp";
 const App = () => {
   return (
     <>
@@ -46,7 +47,7 @@ const App = () => {
             path="/publisher/*"
             element={
               <RoleProtectedRoutes requiredRole="publisher">
-                <PublisherLayout />
+                <PublisherApp />
               </RoleProtectedRoutes>
             }
           />

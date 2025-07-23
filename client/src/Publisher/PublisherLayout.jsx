@@ -1,13 +1,20 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import PublisherNavbar from "./Components/PublisherNavbar/PublisherNavbar";
+import { Outlet } from "react-router-dom";
 
 const PublisherLayout = () => {
   return (
-    <Routes>
-      <Route path="dashboard" element={<h1>Publisher DashBoard</h1>} />
-      <Route path="addblog" element={<h1>Add Blog</h1>} />
-      <Route path="allblog" element={<h1>See All Blogs</h1>} />
-    </Routes>
+    <div className="d-flex flex-column" style={{ minHeight: "100vh" }}>
+      {/* Top Navbar */}
+      <div className="bg-light text-white">
+        <PublisherNavbar />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-grow-1 bg-light p-3">
+        <Outlet />
+      </div>
+    </div>
   );
 };
 

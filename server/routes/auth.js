@@ -26,7 +26,7 @@ authRouter.post("/login", async (req, res) => {
       { id: user._id, email: user.email, role: user.role },
       process.env.JWT_SECRET_KEY,
       {
-        expiresIn: "1h",
+        expiresIn: "10h",
       }
     );
     // console.log("Entered email:", email);
