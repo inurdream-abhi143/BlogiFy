@@ -1,4 +1,6 @@
 import Post from "../models/post.js";
+import multer from "multer";
+import path from "path";
 
 import express from "express";
 

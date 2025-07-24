@@ -23,7 +23,13 @@ authRouter.post("/login", async (req, res) => {
       return res.status(401).json({ message: "password does not match " });
     }
     const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        username: user.username,
+        username: user.username,
+      },
       process.env.JWT_SECRET_KEY,
       {
         expiresIn: "10h",

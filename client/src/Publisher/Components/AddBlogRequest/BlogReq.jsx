@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 const BlogReq = () => {
+  const [previewImage, setPreviewImage] = useState(null);
+
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
     content: Yup.string().required("Content is required"),
@@ -11,19 +16,63 @@ const BlogReq = () => {
     image: Yup.mixed().required("Image is required"),
   });
 
+  const handleSubmit = async (value) => {
+    const token = localStorage.getItem("token");
+
+    const decode = jwtDecode(token);
+
+    const authorId = decode.id;
+    const authorname = decode.username;
+
+    // console.log(token, decode);
+    // console.log(authorId);
+
+    const blogData = {
+      blogId: Math.random().toString(36).substring(2, 8),
+      author: authorId,
+      authorname: authorname,
+      title: value.title,
+      content: value.content,
+      category: value.category,
+      tags: value.tags.split(",").map((tag) => tag.trim()),
+      coverImage: append(value.image),
+    };
+    // console.log(blogData);
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/posts",
+        {
+          blogData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.status === 201) {
+        toast.success("Blog request submitted successfully!");
+        // Reset form or redirect as needed
+      }
+    } catch (error) {
+      console.error("Error submitting blog request:", error);
+      toast.error("Failed to submit blog request. Please try again.");
+    }
+  };
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
         <div className="col-md-10 col-lg-8">
-          <div className="card shadow-lg border-0">
-            <div className="card-header bg-warning text-dark text-center py-3">
-              <h3 className="fw-bold mb-0">📤 Submit Blog for Review</h3>
-              <small className="text-muted">
-                Fill in your blog details below
-              </small>
+          <div className="card border-0 shadow-lg">
+            <div className="card-header bg-warning text-center text-dark py-4 rounded-top">
+              <h3 className="fw-bold mb-1">📤 Submit Blog for Review</h3>
+              <p className="mb-0 small text-muted">
+                Fill in the blog details carefully before submitting
+              </p>
             </div>
 
-            <div className="card-body bg-light">
+            <div className="card-body bg-light px-4 py-5">
               <Formik
                 initialValues={{
                   title: "",
@@ -33,65 +82,78 @@ const BlogReq = () => {
                   image: null,
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                  console.log("Form Submitted: ", values);
-                }}
+                onSubmit={handleSubmit}
               >
                 {({ setFieldValue }) => (
                   <Form>
                     {/* Title */}
-                    <div className="mb-3">
+                    <div className="mb-4">
                       <label className="form-label fw-semibold">Title</label>
                       <Field
                         name="title"
                         type="text"
                         className="form-control"
-                        placeholder="Enter blog title"
+                        placeholder="Amazing blog title"
                       />
                       <ErrorMessage
                         name="title"
                         component="div"
-                        className="text-danger small"
+                        className="text-danger small mt-1"
                       />
                     </div>
 
                     {/* Content */}
-                    <div className="mb-3">
+                    <div className="mb-4">
                       <label className="form-label fw-semibold">Content</label>
                       <Field
                         name="content"
                         as="textarea"
-                        rows="5"
+                        rows="6"
                         className="form-control"
-                        placeholder="Write your blog content..."
+                        placeholder="Write your blog content here..."
                       />
                       <ErrorMessage
                         name="content"
                         component="div"
-                        className="text-danger small"
+                        className="text-danger small mt-1"
                       />
                     </div>
 
-                    {/* Image Upload */}
-                    <div className="mb-3">
+                    {/* Image Upload + Preview */}
+                    <div className="mb-4">
                       <label className="form-label fw-semibold">Image</label>
                       <input
                         type="file"
                         name="image"
                         className="form-control"
-                        onChange={(e) =>
-                          setFieldValue("image", e.target.files[0])
-                        }
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          setFieldValue("image", file);
+                          setPreviewImage(URL.createObjectURL(file));
+                        }}
                       />
                       <ErrorMessage
                         name="image"
                         component="div"
-                        className="text-danger small"
+                        className="text-danger small mt-1"
                       />
+                      {/* Preview */}
+                      {previewImage && (
+                        <div className="mt-3 text-center">
+                          <img
+                            src={previewImage}
+                            alt="Preview"
+                            className="img-fluid rounded shadow-md"
+                            style={{ maxHeight: "150px", objectFit: "contain" }}
+                          />
+                          <p className="text-muted small mt-1">Image Preview</p>
+                        </div>
+                      )}
                     </div>
 
                     {/* Category */}
-                    <div className="mb-3">
+                    <div className="mb-4">
                       <label className="form-label fw-semibold">Category</label>
                       <Field
                         name="category"
@@ -107,23 +169,23 @@ const BlogReq = () => {
                       <ErrorMessage
                         name="category"
                         component="div"
-                        className="text-danger small"
+                        className="text-danger small mt-1"
                       />
                     </div>
 
                     {/* Tags */}
-                    <div className="mb-3">
+                    <div className="mb-4">
                       <label className="form-label fw-semibold">Tags</label>
                       <Field
                         name="tags"
                         type="text"
                         className="form-control"
-                        placeholder="e.g. react, mongodb, ui/ux"
+                        placeholder="e.g. react, mongodb, ux"
                       />
                       <ErrorMessage
                         name="tags"
                         component="div"
-                        className="text-danger small"
+                        className="text-danger small mt-1"
                       />
                     </div>
 
@@ -131,7 +193,7 @@ const BlogReq = () => {
                     <div className="text-center mt-4">
                       <button
                         type="submit"
-                        className="btn btn-warning px-5 py-2 fw-bold"
+                        className="btn btn-warning fw-bold px-5 py-2"
                       >
                         🚀 Submit Blog Request
                       </button>
