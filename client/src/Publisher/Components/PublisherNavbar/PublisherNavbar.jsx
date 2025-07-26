@@ -45,7 +45,7 @@ const PublisherNavbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/publisher/blog-history" className="nav-link">
+              <Link to="/publisher/allblog" className="nav-link">
                 📚 Blog History
               </Link>
             </li>

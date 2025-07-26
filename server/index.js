@@ -1,13 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
-// import cors from "cors";
-// import bodyParser from "body-parser";
+
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import commnetRoutes from "./routes/commentRoutes.js";
 import auth from "./routes/auth.js";
 import cors from "cors";
+import userBlogs from "./routes/usersBlogs.js";
 dotenv.config();
 
 const app = express();
@@ -16,6 +16,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
+
+// 🔥 Serve static files (images) from /uploads
+app.use("/uploads", express.static("uploads"));
+
 mongoose
   .connect("mongodb://localhost:27017/Blogs")
   .then(() => {
@@ -34,6 +38,11 @@ app.get("/", (req, res) => {
 app.use("/auth", auth);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
+
+// specific routes ffor publisher blogs
+
+app.use("/usersblogs", userBlogs);
+
 app.use("/comments", commnetRoutes);
 
 app.listen(3000, () => {

@@ -10,21 +10,27 @@ import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "./contexts/AuthContext.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { GetUsersProvider } from "./contexts/GetUsersContext.jsx";
+import { BlogsProvider } from "./contexts/BlogsContext.jsx";
+import { AdminsBlogsReqProvider } from "./contexts/AdminsBlogsReqContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
       <LoginContextProvider>
-        <GetUsersProvider>
-          <App />
-        </GetUsersProvider>
+        <BlogsProvider>
+          <GetUsersProvider>
+            <AdminsBlogsReqProvider>
+              <App />
+            </AdminsBlogsReqProvider>
+          </GetUsersProvider>
 
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          pauseOnHover
-          theme="light"
-        />
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            pauseOnHover
+            theme="light"
+          />
+        </BlogsProvider>
       </LoginContextProvider>
     </AuthProvider>
   </StrictMode>

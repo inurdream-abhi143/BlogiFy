@@ -13,6 +13,10 @@ const blogPostSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    authorName: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,

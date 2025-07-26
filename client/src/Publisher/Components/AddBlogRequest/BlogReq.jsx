@@ -16,43 +16,56 @@ const BlogReq = () => {
     image: Yup.mixed().required("Image is required"),
   });
 
-  const handleSubmit = async (value) => {
+  const handleSubmit = async (value, { resetForm }) => {
     const token = localStorage.getItem("token");
 
     const decode = jwtDecode(token);
 
     const authorId = decode.id;
-    const authorname = decode.username;
+    const authorName = decode.username;
 
     // console.log(token, decode);
     // console.log(authorId);
 
-    const blogData = {
-      blogId: Math.random().toString(36).substring(2, 8),
-      author: authorId,
-      authorname: authorname,
-      title: value.title,
-      content: value.content,
-      category: value.category,
-      tags: value.tags.split(",").map((tag) => tag.trim()),
-      coverImage: append(value.image),
-    };
-    // console.log(blogData);
+    // const blogData = {
+    //   blogId: Math.random().toString(36).substring(2, 8),
+    //   author: authorId,
+    //   authorname: authorname,
+    //   title: value.title,
+    //   content: value.content,
+    //   category: value.category,
+    //   tags: value.tags.split(",").map((tag) => tag.trim()),
+    //   coverImage: append(value.image),
+    // };
+
+    const fromData = new FormData();
+
+    fromData.append("blogId", Math.random().toString(36).substring(2, 8));
+    fromData.append("author", authorId);
+
+    fromData.append("authorName", authorName);
+    fromData.append("title", value.title);
+    fromData.append("content", JSON.stringify(value.content));
+    fromData.append("category", value.category);
+    fromData.append(
+      "tags",
+      value.tags.split(",").map((tag) => tag.trim())
+    );
+    fromData.append("coverImage", value.image);
+
+    console.log("Form Data:", fromData);
     try {
-      const res = await axios.post(
-        "http://localhost:3000/posts",
-        {
-          blogData,
+      const res = await axios.post("http://localhost:3000/posts", fromData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      });
 
       if (res.status === 201) {
         toast.success("Blog request submitted successfully!");
+        resetForm();
+        setPreviewImage(null); // Clear preview after submission
         // Reset form or redirect as needed
       }
     } catch (error) {

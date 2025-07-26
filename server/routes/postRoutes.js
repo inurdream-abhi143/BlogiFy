@@ -1,57 +1,82 @@
-import Post from "../models/post.js";
-import multer from "multer";
-import path from "path";
-
 import express from "express";
+import multer from "multer";
+import Post from "../models/post.js";
+import verifyToken from "../middlewares/checkAuthmiddleware.js";
+import verifyAdmin from "../middlewares/checkAdminAuh.js";
 
 const post = express.Router();
 
-post.post("/", async (req, res) => {
+// 📁 Multer Storage Config
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "_" + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
+// 📝 Create Blog Post
+post.post("/", upload.single("coverImage"), async (req, res) => {
   try {
-    const newPost = new Post(req.body);
-    const savePost = await newPost.save();
-    res.status(201).json(savePost);
+    const { blogId, author, authorName, title, content, category, tags } =
+      req.body;
+
+    const newPost = new Post({
+      blogId,
+      author,
+      authorName,
+      title,
+      content,
+      category,
+      tags: tags.split(",").map((tag) => tag.trim()),
+      coverImage: `http://localhost:3000/uploads/${req.file.filename}`, // 👈 nice clean URL
+    });
+
+    const savedPost = await newPost.save();
+    res.status(201).json(savedPost);
   } catch (err) {
-    res.status(404).send({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
-post.get("/", async (req, res) => {
+
+// 📚 Get All Blogs
+post.get("/", verifyToken, verifyAdmin, async (req, res) => {
   try {
     const blogs = await Post.find();
     res.status(200).json(blogs);
   } catch (err) {
-    res.status(404).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
+
+// ✏️ Update Blog
 post.patch("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    if (!id) {
-      res.status(404);
-      return send("No data found ");
-    }
-    const newData = req.body;
-    const blogData = await Post.findByIdAndUpdate(id, newData, { new: true });
-    res.status(200).json(blogData);
+    if (!id) return res.status(404).send("No data found");
+
+    const updated = await Post.findByIdAndUpdate(id, req.body, { new: true });
+    res.status(200).json(updated);
   } catch (err) {
-    res.status(404).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
+
+// 🗑️ Delete Blog
 post.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    if (!id) {
-      res.status(404);
+    if (!id) return res.status(404).send("No data found");
 
-      return res.send("No data found");
-    }
-    const deleteData = await Post.findByIdAndDelete(id);
-    if (!deleteData) {
-      return res.status(404).send("No data found ");
-    }
-    res.status(200).json(deleteData);
+    const deleted = await Post.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).send("No data found");
+
+    res.status(200).json(deleted);
   } catch (err) {
-    res.status(404).json({ error: err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 
