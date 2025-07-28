@@ -24,14 +24,14 @@ const UsersManage = () => {
       });
       setUserData(res.data);
     } catch (err) {
-      console.error("Error in fetching Data ", err);
+      console.error("Error fetching users:", err);
     }
   };
 
   return (
-    <div className="container-fluid pb-4 px-3">
+    <div className="container-fluid px-3 py-4 bg-dark text-light min-vh-100">
       {/* Header */}
-      <header className="bg-dark text-white py-3 px-4 mb-4 rounded d-flex justify-content-between align-items-center shadow-sm">
+      <header className="bg-black text-white py-3 px-4 mb-4 rounded shadow border border-secondary d-flex justify-content-between align-items-center">
         <h2 className="m-0 fw-bold">
           <FaUserGear className="me-2" />
           Users Management
@@ -42,7 +42,7 @@ const UsersManage = () => {
       {/* User Table */}
       <section>
         <div className="table-responsive">
-          <table className="table table-bordered table-hover align-middle text-center">
+          <table className="table table-bordered table-hover align-middle text-center text-light border-secondary">
             <thead className="table-dark">
               <tr>
                 <th>Sr.No</th>
@@ -61,11 +61,13 @@ const UsersManage = () => {
                 .map((user, i) => (
                   <tr key={user._id}>
                     <td>{i + 1}</td>
-                    <td className="text-break">{user._id.slice(0, 5)}</td>
+                    <td className="text-break">{user._id.slice(0, 6)}</td>
                     <td>{user.username}</td>
                     <td className="text-break">{user.email}</td>
                     <td>
-                      <span className="badge  text-dark">{user.role}</span>
+                      <span className="badge bg-info text-dark">
+                        {user.role}
+                      </span>
                     </td>
                     <td>
                       <span
@@ -79,7 +81,7 @@ const UsersManage = () => {
                     <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                     <td>
                       <div className="btn-group">
-                        <button className="btn btn-sm btn-outline-secondary">
+                        <button className="btn btn-sm btn-outline-light">
                           <FaEye className="me-1" />
                           View
                         </button>
@@ -91,10 +93,11 @@ const UsersManage = () => {
                     </td>
                   </tr>
                 ))}
-
               {userData.filter((user) => user.role === "user").length === 0 && (
                 <tr>
-                  <td colSpan="8">No users available</td>
+                  <td colSpan="8" className="text-center text-muted py-4">
+                    😶 No users available
+                  </td>
                 </tr>
               )}
             </tbody>

@@ -8,6 +8,7 @@ import PublisherRequests from "./Pages/publisherRequests";
 import PublisherManage from "./Pages/PublisherManage";
 import AdminBlog from "./Components/Adminaddblog/AdminBlog";
 import AllPendingBlogs from "./Pages/AllPendingBlogs";
+import AdminModeratedBlogs from "./Pages/AdminModeratedBlogs";
 
 const AdminApp = () => {
   return (
@@ -21,7 +22,7 @@ const AdminApp = () => {
         <Route path="dashboard" element={<AdminDashBoard />} />
         <Route path="users" element={<UsersManage />} />
         <Route path="publishers" element={<PublisherManage />} />
-        <Route path="blogs" element={<h1>Blogs History</h1>} />
+        <Route path="blogs" element={<AdminModeratedBlogs />} />
         <Route path="pendingblogs" element={<AllPendingBlogs />} />
         <Route path="publisherReq" element={<PublisherRequests />} />
         <Route path="adminblog" element={<AdminBlog />} />

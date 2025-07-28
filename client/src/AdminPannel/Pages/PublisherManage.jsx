@@ -1,22 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
 import { GetUsersContext } from "../../contexts/GetUsersContext";
-import { FaUserGear, FaBan, FaEye } from "react-icons/fa6";
+import { FaUserGear } from "react-icons/fa6";
 
 const PublisherManage = () => {
   const { users } = useContext(GetUsersContext);
   const [publisher, setPublisher] = useState([]);
 
-  const publishers = users.filter((pub) => pub.role === "publisher");
-
   useEffect(() => {
+    const publishers = users.filter((user) => user.role === "publisher");
     setPublisher(publishers);
-    console.log("all data ", users);
-  }, []);
+  }, [users]);
 
   return (
-    <div className="container pb-5">
-      {/* Page Header */}
-      <header className="bg-dark text-white py-3 px-4 mb-4 rounded d-flex justify-content-between align-items-center shadow-sm">
+    <div className="container-fluid py-4 px-3 bg-dark text-light min-vh-100">
+      {/* Header */}
+      <header className="bg-black text-white py-3 px-4 mb-4 rounded shadow border border-secondary d-flex justify-content-between align-items-center">
         <h2 className="m-0 fw-bold">
           <FaUserGear className="me-2" />
           Publisher Management
@@ -24,48 +22,48 @@ const PublisherManage = () => {
         <span className="badge bg-warning text-dark fs-6">BlogiFy</span>
       </header>
 
-      {/* Publisher Table */}
+      {/* Table */}
       <div className="table-responsive">
-        <table className="table table-hover table-bordered align-middle shadow-sm">
+        <table className="table table-bordered table-hover align-middle text-center text-light border-secondary">
           <thead className="table-dark">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Publisher ID</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Status</th>
-              <th scope="col">Joined</th>
-              <th scope="col">Last Update</th>
-              <th scope="col">Action</th>
+              <th>#</th>
+              <th>Publisher ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Joined</th>
+              <th>Last Update</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {publisher.length > 0 ? (
-              publisher.map((publis, i) => (
+              publisher.map((pub, i) => (
                 <tr key={i}>
-                  <th>{i + 1}</th>
-                  <td className="text-muted">{publis._id.slice(0, 6)}</td>
-                  <td>{publis.username}</td>
-                  <td>{publis.email}</td>
+                  <td>{i + 1}</td>
+                  <td className="text-break">{pub._id.slice(0, 6)}</td>
+                  <td>{pub.username}</td>
+                  <td className="text-break">{pub.email}</td>
                   <td>
                     <span
                       className={`badge rounded-pill ${
-                        publis.status === "active"
+                        pub.status === "active"
                           ? "bg-success"
                           : "bg-warning text-dark"
                       }`}
                     >
-                      {publis.status}
+                      {pub.status}
                     </span>
                   </td>
-                  <td>{new Date(publis.createdAt).toLocaleDateString()}</td>
-                  <td>{new Date(publis.updatedAt).toLocaleDateString()}</td>
+                  <td>{new Date(pub.createdAt).toLocaleDateString()}</td>
+                  <td>{new Date(pub.updatedAt).toLocaleDateString()}</td>
                   <td>
-                    <div className="d-flex gap-2">
-                      <button className="btn btn-outline-primary btn-sm">
+                    <div className="btn-group">
+                      <button className="btn btn-sm btn-outline-info">
                         Edit
                       </button>
-                      <button className="btn btn-outline-danger btn-sm text-dark">
+                      <button className="btn btn-sm btn-outline-danger">
                         Suspend
                       </button>
                     </div>
@@ -75,7 +73,7 @@ const PublisherManage = () => {
             ) : (
               <tr>
                 <td colSpan="8" className="text-center text-muted py-4 fs-5">
-                  💤 No publishers available to show right now.
+                  💤 No publishers available.
                 </td>
               </tr>
             )}

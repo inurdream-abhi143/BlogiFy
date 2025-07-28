@@ -10,7 +10,7 @@ const PublisherpendingBlogs = () => {
 
   // Dummy placeholder for UI only — You’ll handle actual filtering
   const pendingBlogs = blogs || [];
-  console.log("Pending Blogs:", pendingBlogs);
+  // console.log("Pending Blogs:", pendingBlogs);
   return (
     <div className="container-fluid py-1">
       <header className="bg-warning text-dark text-center py-4 rounded shadow mb-5 ">
@@ -42,7 +42,7 @@ const PublisherpendingBlogs = () => {
                     <span className="text-muted">{blog.category}</span>
                   </p>
                   <div className="d-flex gap-3 justify-content-end">
-                    <h1 className="text-muted">{blog.status}</h1>
+                    <h1 className="text-muted ">{blog.status}</h1>
                   </div>
                 </div>
               </div>

@@ -53,7 +53,7 @@ post.get("/", verifyToken, verifyAdmin, async (req, res) => {
 });
 
 // ✏️ Update Blog
-post.patch("/:id", async (req, res) => {
+post.patch("/:id", verifyAdmin, async (req, res) => {
   try {
     const id = req.params.id;
     if (!id) return res.status(404).send("No data found");

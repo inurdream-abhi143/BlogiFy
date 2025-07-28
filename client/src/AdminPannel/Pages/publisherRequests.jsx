@@ -8,12 +8,14 @@ const PublisherRequests = () => {
   useEffect(() => {
     getPendingRequest();
   }, []);
+
   const getPendingRequest = async () => {
-    // debugger;
     const token = localStorage.getItem("token");
     if (!token) {
-      console.error("Invalid / expire Token ");
+      console.error("Invalid / expired Token");
+      return;
     }
+
     try {
       const res = await axios.get(
         "http://localhost:3000/users/pending-publisher-requests",
@@ -23,107 +25,89 @@ const PublisherRequests = () => {
           },
         }
       );
-
       setPendingRequest(res.data);
     } catch (err) {
-      toast.error("Data not found ");
+      toast.error("Failed to fetch requests");
     }
   };
-  const handleReject = async (id) => {
-    // debugger;
-    try {
-      const userid = id;
-      console.log(userid);
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Invalid/Expire Token");
-      }
 
+  const handleReject = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
       const res = await axios.patch(
-        `http://localhost:3000/users/admin-publisher-request/${userid}`,
+        `http://localhost:3000/users/admin-publisher-request/${id}`,
         {
           PublisherRequest: false,
           publisherStatus: "rejected",
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      toast.success("publisher request Rejected");
+      toast.success("Request Rejected");
+      getPendingRequest();
     } catch (err) {
-      toast.error("Request Rejected", err.message);
+      toast.error("Error rejecting request");
     }
   };
-  const handleApprove = async (id) => {
-    // debugger;
-    try {
-      const userid = id;
-      console.log(userid);
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.error("Invalid/Expire Token");
-      }
 
+  const handleApprove = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
       const res = await axios.patch(
-        `http://localhost:3000/users/admin-publisher-request/${userid}`,
+        `http://localhost:3000/users/admin-publisher-request/${id}`,
         {
           publisherStatus: "approved",
           role: "publisher",
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
-      toast.success("publisher request Approved");
+      toast.success("Request Approved");
+      getPendingRequest();
     } catch (err) {
-      toast.error("Request Rejected", err.message);
+      toast.error("Error approving request");
     }
   };
-  console.log("data found", pendingRequest);
 
   return (
-    <div className="container py-1">
-      <header className="bg-primary text-white text-center py-4 rounded shadow mb-5">
-        <h1 className="fs-2 mb-1">Publisher Requests</h1>
-        <p className="mb-0">Approve or reject publisher access</p>
+    <div className="container-fluid py-4 px-3 bg-dark text-light min-vh-100">
+      <header className="bg-black text-white py-3 px-4 mb-4 rounded shadow border border-secondary">
+        <h2 className="m-0 fw-bold text-center">📨 Publisher Requests</h2>
+        <p className="text-center text-muted mb-0">Approve or reject access</p>
       </header>
 
       {pendingRequest.length === 0 ? (
         <div className="text-center mt-5">
-          <h4 className="text-muted">No pending requests 🚫</h4>
+          <h4 className="text-muted">🚫 No pending requests</h4>
         </div>
       ) : (
         <div className="row g-4 justify-content-center">
-          {pendingRequest.map((reqs, i) => (
+          {pendingRequest.map((req, i) => (
             <div className="col-12 col-md-8" key={i}>
-              <div className="card border-0 shadow-sm">
+              <div className="card bg-secondary bg-gradient text-light shadow border-0">
                 <div className="card-body">
-                  <h5 className="card-title fw-bold text-dark mb-3">
-                    ✉️ New Publisher Request
+                  <h5 className="card-title fw-bold mb-3">
+                    🆕 Publisher Request
                   </h5>
                   <p className="mb-3">
-                    <span className="fw-semibold">Email:</span>{" "}
-                    <span className="text-muted">{reqs.email}</span>
+                    <strong>Email:</strong> {req.email}
                     <br />
-                    <span className="fw-semibold">Username:</span>{" "}
-                    <span className="text-muted">{reqs.username}</span>
+                    <strong>Username:</strong> {req.username}
                   </p>
                   <div className="d-flex gap-3 justify-content-end">
                     <button
-                      className="btn btn-success px-4"
-                      onClick={() => handleApprove(reqs._id)}
+                      className="btn btn-success"
+                      onClick={() => handleApprove(req._id)}
                     >
-                      Approve
+                      ✅ Approve
                     </button>
                     <button
-                      className="btn btn-outline-danger px-4"
-                      onClick={() => handleReject(reqs._id)}
+                      className="btn btn-outline-danger"
+                      onClick={() => handleReject(req._id)}
                     >
-                      Reject
+                      ❌ Reject
                     </button>
                   </div>
                 </div>
