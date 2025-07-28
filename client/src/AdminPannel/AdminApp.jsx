@@ -9,6 +9,7 @@ import PublisherManage from "./Pages/PublisherManage";
 import AdminBlog from "./Components/Adminaddblog/AdminBlog";
 import AllPendingBlogs from "./Pages/AllPendingBlogs";
 import AdminModeratedBlogs from "./Pages/AdminModeratedBlogs";
+import AdminBlogView from "./Components/AdminBlogView/AdminBlogView";
 
 const AdminApp = () => {
   return (
@@ -26,6 +27,7 @@ const AdminApp = () => {
         <Route path="pendingblogs" element={<AllPendingBlogs />} />
         <Route path="publisherReq" element={<PublisherRequests />} />
         <Route path="adminblog" element={<AdminBlog />} />
+        <Route path="adminblogview/:id" element={<AdminBlogView />} />
       </Route>
     </Routes>
   );

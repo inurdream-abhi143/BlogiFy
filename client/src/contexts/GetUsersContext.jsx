@@ -5,9 +5,9 @@ export const GetUsersContext = createContext(null);
 
 export const GetUsersProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
-  useEffect(() => {
-    getAllUsers();
-  }, []);
+  // useEffect(() => {
+  //   getAllUsers();
+  // }, []);
 
   const getAllUsers = async () => {
     try {
@@ -28,7 +28,7 @@ export const GetUsersProvider = ({ children }) => {
     }
   };
 
-  const value = { users };
+  const value = { users, getAllUsers };
   return (
     <GetUsersContext.Provider value={value}>
       {children}

@@ -1,19 +1,45 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { MdArticle, MdPendingActions } from "react-icons/md";
 import { FaUserTie, FaUsers } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
+import { useAdminBlogs } from "../../contexts/AdminsBlogsReqContext";
+import { GetUsersContext } from "../../contexts/GetUsersContext";
 
 const AdminDashBoard = () => {
   const navigate = useNavigate();
 
+  const { allBlogs, getAllBlogs, allPendingBlogs } = useAdminBlogs();
+  const { users, getAllUsers } = useContext(GetUsersContext);
+  useEffect(() => {
+    getAllBlogs();
+    getAllUsers();
+  }, []);
+
+  const userslength = users.filter((user) => user.role === "user");
+  const publisherslength = users.filter((user) => user.role === "publisher");
   const stats = [
-    { label: "Total Blogs", value: 0, icon: <MdArticle />, color: "primary" },
-    { label: "Publishers", value: 0, icon: <FaUserTie />, color: "success" },
-    { label: "Users", value: 0, icon: <FaUsers />, color: "info" },
+    {
+      label: "Total Blogs",
+      value: allBlogs.length,
+      icon: <MdArticle />,
+      color: "primary",
+    },
+    {
+      label: "Publishers",
+      value: publisherslength.length,
+      icon: <FaUserTie />,
+      color: "success",
+    },
+    {
+      label: "Users",
+      value: userslength.length,
+      icon: <FaUsers />,
+      color: "info",
+    },
     {
       label: "Pending Blogs",
-      value: 0,
+      value: allPendingBlogs.length || "0",
       icon: <MdPendingActions />,
       color: "danger",
     },
@@ -80,7 +106,7 @@ const AdminDashBoard = () => {
             <div className="card-body">
               <div className="row g-3">
                 <div className="col-12 col-sm-6">
-                  <button className="btn btn-outline-primary w-100 py-4 d-flex align-items-center justify-content-center gap-2">
+                  <button className="btn btn-outline-primary w-100 py-4 d-flex align-items-center justify-content-center gap-2 disabled">
                     <MdArticle /> Approve Blogs
                   </button>
                 </div>
@@ -96,7 +122,7 @@ const AdminDashBoard = () => {
                   </Link>
                 </div>
                 <div className="col-12 col-sm-6">
-                  <button className="btn btn-outline-warning w-100 py-4 d-flex align-items-center justify-content-center gap-2">
+                  <button className="btn btn-outline-warning w-100 py-4 d-flex align-items-center justify-content-center gap-2 disabled">
                     <FaUsers /> Suspended Users
                   </button>
                 </div>

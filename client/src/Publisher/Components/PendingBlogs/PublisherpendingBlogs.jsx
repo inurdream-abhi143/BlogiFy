@@ -8,9 +8,9 @@ const PublisherpendingBlogs = () => {
     getBlogs();
   }, []);
 
-  // Dummy placeholder for UI only — You’ll handle actual filtering
-  const pendingBlogs = blogs || [];
-  // console.log("Pending Blogs:", pendingBlogs);
+  const pendingBlogs =
+    blogs.filter((pendingBlogs) => pendingBlogs.status === "pending") || [];
+  console.log("Pending Blogs:", pendingBlogs);
   return (
     <div className="container-fluid py-1">
       <header className="bg-warning text-dark text-center py-4 rounded shadow mb-5 ">
