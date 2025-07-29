@@ -19,7 +19,7 @@ const AllPendingBlogs = () => {
 
       {allPendingBlogs.length === 0 ? (
         <div className="text-center mt-5">
-          <h4 className="text-muted">No pending blogs 💤</h4>
+          <h4 className="text-white">No pending blogs 💤</h4>
         </div>
       ) : (
         <ul className="list-group shadow rounded">

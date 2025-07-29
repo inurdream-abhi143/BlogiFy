@@ -11,7 +11,7 @@ const PublisherLayout = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-grow-1 bg-light p-3">
+      <div className="flex-grow-1 bg-light ">
         <Outlet />
       </div>
     </div>

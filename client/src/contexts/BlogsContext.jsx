@@ -1,6 +1,8 @@
 import { jwtDecode } from "jwt-decode";
 import { createContext, useContext, useState } from "react";
 
+// its is for single user blogs for publisher
+
 const BlogContext = createContext(null);
 
 export const BlogsProvider = ({ children }) => {
@@ -12,7 +14,7 @@ export const BlogsProvider = ({ children }) => {
       return console.error("No token found");
     }
     const decode = jwtDecode(token);
-    
+
     const id = decode.id;
     try {
       const res = await fetch(`http://localhost:3000/usersblogs/${id}`, {

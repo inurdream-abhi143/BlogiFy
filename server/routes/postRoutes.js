@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// 📝 Create Blog Post
+//  Create Blog Post
 post.post("/", upload.single("coverImage"), async (req, res) => {
   try {
     const { blogId, author, authorName, title, content, category, tags } =
@@ -42,8 +42,8 @@ post.post("/", upload.single("coverImage"), async (req, res) => {
   }
 });
 
-// 📚 Get All Blogs
-post.get("/", verifyToken, verifyAdmin, async (req, res) => {
+//  Get All Blogs
+post.get("/", verifyToken, async (req, res) => {
   try {
     const blogs = await Post.find();
     res.status(200).json(blogs);
@@ -52,7 +52,7 @@ post.get("/", verifyToken, verifyAdmin, async (req, res) => {
   }
 });
 
-// ✏️ Update Blog
+//  Update Blog
 post.patch("/:id", verifyAdmin, async (req, res) => {
   try {
     const id = req.params.id;
@@ -65,7 +65,7 @@ post.patch("/:id", verifyAdmin, async (req, res) => {
   }
 });
 
-// 🗑️ Delete Blog
+//  Delete Blog
 post.delete("/:id", async (req, res) => {
   try {
     const id = req.params.id;

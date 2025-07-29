@@ -17,8 +17,8 @@ const AdminModeratedBlogs = () => {
       </header>
 
       {moderatedBlogs.length === 0 ? (
-        <div className="text-center mt-5">
-          <h4 className="text-muted">No moderated blogs yet 💤</h4>
+        <div className="text-center mt-5 text-white">
+          <h4 className="text-white">No moderated blogs yet 💤</h4>
         </div>
       ) : (
         <ul className="list-group shadow rounded overflow-auto">

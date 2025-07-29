@@ -70,7 +70,9 @@ const HeroBanner = () => {
 
         <div className="d-flex flex-column flex-sm-row gap-3">
           <button className="btn btn-warning btn-lg fw-bold px-4 py-2">
-            <Link to="/blogs">Explore Blogs</Link>
+            <Link to="/blogs" className="text-decoration-none text-light">
+              Explore Blogs
+            </Link>
           </button>
           <button
             onClick={handlePublisherRequest}
