@@ -80,4 +80,16 @@ post.delete("/:id", async (req, res) => {
   }
 });
 
+// for specific blogs to open
+post.get("/:id", verifyToken, async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) return res.status(404).send("No id Found");
+    const blog = await Post.findById(id);
+    if (!blog) return res.status(404).send("NO Blog found");
+    res.status(200).json(blog);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 export default post;

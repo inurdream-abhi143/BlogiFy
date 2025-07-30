@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LatestBlogs = () => {
   const [latestBlog, setLatestBlog] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     blogsForView();
@@ -35,7 +37,9 @@ const LatestBlogs = () => {
       console.error("Error fetching blogs:", err.message);
     }
   };
-
+  const handleBlog = (id) => {
+    navigate(`/blogView/${id}`);
+  };
   return (
     <div className="container py-5 bg-light">
       <h2 className="text-center fw-bold mb-5 text-dark">Featured Blogs</h2>
@@ -63,12 +67,15 @@ const LatestBlogs = () => {
                 <h5 className="card-title fw-bold text-dark">{blog.title}</h5>
                 <h6 className="text-muted mb-2">By {blog.authorName}</h6>
                 <p className="card-text text-secondary" style={{ flexGrow: 1 }}>
-                  {blog.content.slice(0, )}...
+                  {blog.content.slice(0, 100)}...
                 </p>
               </div>
 
               <div className="card-footer bg-white border-0">
-                <button className="btn btn-outline-dark w-100 fw-bold">
+                <button
+                  className="btn btn-outline-dark w-100 fw-bold"
+                  onClick={() => handleBlog(blog._id)}
+                >
                   Read More
                 </button>
               </div>

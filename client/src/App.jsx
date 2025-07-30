@@ -13,6 +13,7 @@ import UserProfile from "./UserProfile";
 import ProtectedRoutes from "./ProtectedRoutes";
 import RoleProtectedRoutes from "./RoleProtectedRoutes";
 import PublisherApp from "./Publisher/PublisherApp";
+import BlogView from "./Pages/BlogView";
 const App = () => {
   return (
     <>
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="contact" element={<Contact />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
+            <Route path="blogView/:id" element={<BlogView />} />
 
             {/* Protected Routes  */}
             <Route
