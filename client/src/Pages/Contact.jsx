@@ -28,7 +28,7 @@ const Contact = () => {
           <div className="card shadow-sm p-4">
             <h5 className="mb-4 fw-semibold">Send us a Message</h5>
             {/* You'll write the form here 🧠 */}
-            <p className="text-muted">[Form goes here — you're the boss 😎]</p>
+            {/* <p className="text-muted">[Form goes here — you're the boss 😎]</p> */}
           </div>
         </div>
 

@@ -22,7 +22,7 @@ const About = () => {
       </div>
 
       {/* Mission Section */}
-      <div className="container-fluid mt-5 mb-5">
+      <div className="container mt-5 mb-5">
         <div className="row align-items-center ">
           {/* Left: Mission Content */}
           <div className="col-md-6 mb-4">

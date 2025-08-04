@@ -1,8 +1,9 @@
+import verifyToken from "../middlewares/checkAuthmiddleware.js";
 import Comment from "../models/comment.js";
 import express from "express";
 const comment = express.Router();
 
-comment.post("/", async (req, res) => {
+comment.post("/", verifyToken, async (req, res) => {
   try {
     const newComment = new Comment(req.body);
     const saveComment = await newComment.save();
@@ -11,7 +12,7 @@ comment.post("/", async (req, res) => {
     res.status(404).json({ error: err.message });
   }
 });
-comment.get("/", async (req, res) => {
+comment.get("/", verifyToken, async (req, res) => {
   try {
     const comments = await Comment.find();
     res.status(200).json(comments);

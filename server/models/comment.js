@@ -10,7 +10,7 @@ const blogComment = new Schema(
     },
     blogId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
+      ref: "Blog",
     },
     content: {
       type: String,
@@ -25,6 +25,7 @@ const blogComment = new Schema(
     },
     isFlagged: {
       type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

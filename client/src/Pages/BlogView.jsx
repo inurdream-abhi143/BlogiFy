@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Comments from "../Components/Comments/Comments";
+import ViewComment from "../Components/viewComments/viewComment";
 
 const BlogView = () => {
   const { id } = useParams(); // ⬅️ get blog ID from URL
@@ -31,14 +33,18 @@ const BlogView = () => {
 
   return (
     <div className="container my-5">
-      <div className="card shadow-sm">
+      <div className="card shadow-sm ">
         {/* Image */}
         {blog.coverImage && (
           <img
             src={blog.coverImage}
             alt={blog.title}
             className="card-img-top"
-            style={{ maxHeight: "400px", objectFit: "cover" }}
+            style={{
+              maxHeight: "400px",
+              objectFit: "contain",
+              repeat: "no-repeat",
+            }}
           />
         )}
 
@@ -51,12 +57,20 @@ const BlogView = () => {
           </div>
 
           <div className="mb-3">
-            <span className="badge bg-primary me-2">{blog.category}</span>
-            {blog.tags?.map((tag, i) => (
-              <span key={i} className="badge bg-secondary me-1">
-                #{tag}
+            <p>
+              Category:
+              <span className="badge bg-primary me-2 mx-2">
+                {blog.category}
               </span>
-            ))}
+            </p>
+            <p>
+              Tags:
+              {blog.tags?.map((tag, i) => (
+                <span key={i} className="badge bg-secondary me-1 mx-2">
+                  #{tag}
+                </span>
+              ))}
+            </p>
           </div>
 
           <hr />
@@ -66,6 +80,8 @@ const BlogView = () => {
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
         </div>
+        <Comments id={id} />
+        <ViewComment id={id} />
       </div>
     </div>
   );

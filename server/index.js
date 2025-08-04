@@ -8,6 +8,7 @@ import commnetRoutes from "./routes/commentRoutes.js";
 import auth from "./routes/auth.js";
 import cors from "cors";
 import userBlogs from "./routes/usersBlogs.js";
+import blogComments from "./routes/blogsComment.js";
 dotenv.config();
 
 const app = express();
@@ -44,6 +45,7 @@ app.use("/posts", postRoutes);
 app.use("/usersblogs", userBlogs);
 
 app.use("/comments", commnetRoutes);
+app.use("/blogComments", blogComments);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
