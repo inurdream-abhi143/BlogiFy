@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 const AdminBlog = () => {
+  const [previewImage, setPreviewImage] = useState(null);
+
   const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
     content: Yup.string().required("Content is required"),
@@ -11,6 +16,46 @@ const AdminBlog = () => {
     image: Yup.mixed().required("Image is required"),
   });
 
+  const handleAddBlogs = async (value, { resetForm }) => {
+    const token = localStorage.getItem("token");
+
+    const decode = jwtDecode(token);
+    const authorId = decode.id;
+    const authorName = decode.username;
+
+    const formData = new FormData();
+
+    formData.append("blogId", Math.random().toString(36).substring(2, 8));
+    formData.append("author", authorId);
+    formData.append("authorName", authorName);
+    formData.append("title", value.title);
+    formData.append("content", JSON.stringify(value.content));
+    formData.append("category", value.category);
+    formData.append(
+      "tags",
+      value.tags.split(",").map((tag) => tag.trim())
+    );
+    formData.append("coverImage", value.image);
+
+    try {
+      const res = await axios.post("http://localhost:3000/posts", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (res.status === 201) {
+        toast.success("Blog posted successfully!");
+        resetForm();
+        setPreviewImage(null);
+      }
+    } catch (error) {
+      console.error("Blog submission error:", error);
+      toast.error("Failed to submit blog.");
+    }
+  };
+
   return (
     <div className="container my-4">
       <div className="row justify-content-center">
@@ -18,7 +63,7 @@ const AdminBlog = () => {
           <div className="card shadow-lg border-0">
             <div className="card-header bg-primary text-white text-center py-3">
               <h3 className="fw-bold mb-0">📝 Add New Blog Post</h3>
-              <small>Fill the details below to create a blog post</small>
+              <small>Fill the details below to publish a blog post</small>
             </div>
 
             <div className="card-body bg-light">
@@ -31,12 +76,22 @@ const AdminBlog = () => {
                   image: null,
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                  console.log("Submitted:", values);
-                }}
+                onSubmit={handleAddBlogs}
               >
                 {({ setFieldValue }) => (
                   <Form>
+                    {/* Image Preview */}
+                    {previewImage && (
+                      <div className="mb-3 text-center">
+                        <img
+                          src={previewImage}
+                          alt="Preview"
+                          className="img-fluid rounded shadow"
+                          style={{ maxHeight: "250px", objectFit: "cover" }}
+                        />
+                      </div>
+                    )}
+
                     {/* Title */}
                     <div className="mb-3">
                       <label className="form-label">Title</label>
@@ -77,9 +132,11 @@ const AdminBlog = () => {
                         type="file"
                         name="image"
                         className="form-control"
-                        onChange={(e) =>
-                          setFieldValue("image", e.target.files[0])
-                        }
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          setFieldValue("image", file);
+                          setPreviewImage(URL.createObjectURL(file));
+                        }}
                       />
                       <ErrorMessage
                         name="image"
