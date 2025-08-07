@@ -7,6 +7,7 @@ const navItems = [
   { label: "Publisher", path: "/admin/publishers" },
   { label: "Blogs", path: "/admin/blogs" },
   { label: "Pending Blogs", path: "/admin/pendingblogs" },
+  { label: "Comments ", path: "/admin/allcomments" },
 ];
 
 const AdminNavbar = () => {

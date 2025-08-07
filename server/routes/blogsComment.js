@@ -6,7 +6,7 @@ const blogComments = express.Router();
 blogComments.get("/blogsComment/:blogId", verifyToken, async (req, res) => {
   try {
     const blogId = req.params.blogId;
-    const comments = await Comment.find({ blogId }).populate(
+    const comments = await Comment.find({ blogId, isFlagged: false }).populate(
       "userId",
       "username"
     );

@@ -81,14 +81,14 @@ const UsersManage = () => {
                     <td>{new Date(user.createdAt).toLocaleDateString()}</td>
                     <td>
                       <div className="btn-group">
-                        <button className="btn btn-sm btn-outline-light">
+                        <button className="btn btn-sm btn-outline-dark">
                           <FaEye className="me-1" />
                           View
                         </button>
-                        <button className="btn btn-sm btn-outline-danger">
+                        {/* <button className="btn btn-sm btn-outline-danger">
                           <FaBan className="me-1" />
                           Suspend
-                        </button>
+                        </button> */}
                       </div>
                     </td>
                   </tr>

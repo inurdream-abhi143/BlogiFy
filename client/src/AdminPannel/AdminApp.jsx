@@ -10,6 +10,7 @@ import AdminBlog from "./Components/Adminaddblog/AdminBlog";
 import AllPendingBlogs from "./Pages/AllPendingBlogs";
 import AdminModeratedBlogs from "./Pages/AdminModeratedBlogs";
 import AdminBlogView from "./Components/AdminBlogView/AdminBlogView";
+import AdminComments from "./Pages/AdminComments";
 
 const AdminApp = () => {
   return (
@@ -28,6 +29,7 @@ const AdminApp = () => {
         <Route path="publisherReq" element={<PublisherRequests />} />
         <Route path="adminblog" element={<AdminBlog />} />
         <Route path="adminblogview/:id" element={<AdminBlogView />} />
+        <Route path="allcomments" element={<AdminComments />} />
       </Route>
     </Routes>
   );

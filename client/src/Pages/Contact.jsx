@@ -11,6 +11,10 @@ import {
 } from "react-icons/fa";
 
 const Contact = () => {
+  const handleEmailMessage = (e) => {
+    e.preventDefault();
+    console.log(e.target);
+  };
   return (
     <div className="container py-5">
       <div className="text-center mb-5">
@@ -26,9 +30,67 @@ const Contact = () => {
         {/* LEFT: Form Card Placeholder */}
         <div className="col-lg-8">
           <div className="card shadow-sm p-4">
-            <h5 className="mb-4 fw-semibold">Send us a Message</h5>
+            <h5 className="mb-4 fw-semibold text-center">Send us a Message</h5>
             {/* You'll write the form here 🧠 */}
-            {/* <p className="text-muted">[Form goes here — you're the boss 😎]</p> */}
+            <div>
+              <form
+                className="p-4 bg-white rounded shadow-sm"
+                onSubmit={handleEmailMessage}
+              >
+                <div className="row mb-3">
+                  {/* Full Name */}
+
+                  {/* Email Address */}
+                  <div className="col">
+                    <label htmlFor="email" className="form-label fw-semibold">
+                      Email Address
+                    </label>
+                    <input
+                      name="form_email"
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      placeholder="you@example.com"
+                    />
+                  </div>
+                </div>
+
+                {/* Subject */}
+                <div className="mb-3">
+                  <label htmlFor="subject" className="form-label fw-semibold">
+                    Subject
+                  </label>
+                  <input
+                    name="subject"
+                    type="text"
+                    className="form-control"
+                    id="subject"
+                    placeholder="Subject of your message"
+                  />
+                </div>
+
+                {/* Message */}
+                <div className="mb-4">
+                  <label htmlFor="message" className="form-label fw-semibold">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    className="form-control"
+                    id="message"
+                    rows="5"
+                    placeholder="Write your message here..."
+                  ></textarea>
+                </div>
+
+                {/* Submit */}
+                <div className="text-end">
+                  <button type="submit" className="btn btn-primary px-4 py-2">
+                    Send Message <i className="ms-2 fa fa-paper-plane"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
 

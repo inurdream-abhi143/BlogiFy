@@ -9,7 +9,7 @@ const PublisherManage = () => {
   useEffect(() => {
     const publishers = users.filter((user) => user.role === "publisher");
     setPublisher(publishers);
-  }, [users]);
+  }, []);
 
   return (
     <div className="container-fluid py-4 px-3 bg-dark text-light min-vh-100">
@@ -61,11 +61,11 @@ const PublisherManage = () => {
                   <td>
                     <div className="btn-group">
                       <button className="btn btn-sm btn-outline-info">
-                        Edit
+                        View
                       </button>
-                      <button className="btn btn-sm btn-outline-danger">
+                      {/* <button className="btn btn-sm btn-outline-danger">
                         Suspend
-                      </button>
+                      </button> */}
                     </div>
                   </td>
                 </tr>

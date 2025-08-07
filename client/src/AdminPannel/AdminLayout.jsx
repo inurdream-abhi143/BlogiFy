@@ -6,7 +6,10 @@ const AdminLayout = () => {
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
       {/* Sidebar */}
-      <div className="bg-dark text-white m-1" style={{ width: "250px" }}>
+      <div
+        className="bg-dark text-white m-1 postion-sticky bottom-20"
+        style={{ width: "250px" }}
+      >
         <AdminNavbar />
       </div>
 

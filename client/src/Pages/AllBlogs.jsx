@@ -25,8 +25,12 @@ const AllBlogs = () => {
           toast.error("No blogs found");
           return;
         }
+        const data = res.data.filter((blogs) => {
+          return blogs.status === "approved";
+        });
+        console.log(data);
 
-        setAllBlogs(res.data);
+        setAllBlogs(data);
         setLoading(false);
       } catch (err) {
         toast.error("Something went wrong while fetching blogs");
@@ -79,9 +83,9 @@ const AllBlogs = () => {
                   </div>
                   <a
                     href={`/blogView/${blog._id}`}
-                    className="btn btn-outline-primary mt-auto"
+                    className="btn btn-outline-dark mt-auto fw-bold "
                   >
-                    Read More →
+                    Read More
                   </a>
                 </div>
               </div>
