@@ -2,6 +2,9 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 function verifyToken(req, res, next) {
+  // if (process.env.NODE_ENV === "test") {
+  //   return next();
+  // }
   const token = req.header("Authorization");
 
   if (!token) {
@@ -12,7 +15,7 @@ function verifyToken(req, res, next) {
       token.split("Bearer ")[1],
       process.env.JWT_SECRET_KEY
     );
-    
+
     req.userId = decodedToken.id;
     next();
   } catch (err) {

@@ -3,6 +3,10 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 function verifyAdmin(req, res, next) {
+  // Bypass auth in test environment
+  // if (process.env.NODE_ENV === "test") {
+  //   return next();
+  // }
   const token = req.header("Authorization");
 
   if (!token) {

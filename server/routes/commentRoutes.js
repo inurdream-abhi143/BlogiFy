@@ -2,12 +2,26 @@ import verifyToken from "../middlewares/checkAuthmiddleware.js";
 import verifyAdmin from "../middlewares/checkAdminAuh.js";
 import Comment from "../models/comment.js";
 import express from "express";
+import user from "../models/user.js";
+import ActivityLog from "../models/activityLog.js";
+// import activityLog from "../models/activityLog.js";
 const comment = express.Router();
 
 comment.post("/", verifyToken, async (req, res) => {
   try {
     const newComment = new Comment(req.body);
     const saveComment = await newComment.save();
+
+    try {
+      await ActivityLog.create({
+        User: req.user._id, // from verifyToken
+        blog: saveComment.blogId, // your blog ref in comment model
+        action: "comment_blog",
+        targetType: "Blog",
+      });
+    } catch (logErr) {
+      console.error("Activity log failed:", logErr.message);
+    }
     res.status(201).json(saveComment);
   } catch (err) {
     res.status(404).json({ error: err.message });

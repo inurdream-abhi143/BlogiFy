@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Comments from "../Components/Comments/Comments";
-import ViewComment from "../Components/viewComments/viewComment";
+import ViewComment from "../Components/viewComments/ViewComment";
 
 const BlogView = () => {
   const { id } = useParams(); // ⬅️ get blog ID from URL
@@ -81,7 +81,8 @@ const BlogView = () => {
           />
         </div>
         <Comments id={id} />
-        <ViewComment id={id} />
+        {/* <ViewComment id={id} /> */}
+        <ViewComment />
       </div>
     </div>
   );

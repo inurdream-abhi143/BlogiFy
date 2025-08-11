@@ -3,6 +3,7 @@ import multer from "multer";
 import Post from "../models/post.js";
 import verifyToken from "../middlewares/checkAuthmiddleware.js";
 import verifyAdmin from "../middlewares/checkAdminAuh.js";
+import activityLog from "../models/activityLog.js";
 
 const post = express.Router();
 
@@ -36,6 +37,18 @@ post.post("/", upload.single("coverImage"), async (req, res) => {
     });
 
     const savedPost = await newPost.save();
+
+    try {
+      await activityLog.create({
+        User: author, // or req.user._id if using verifyToken
+        blog: savedPost._id,
+        action: "submit_blog_approval",
+        targetType: "Blog",
+      });
+    } catch (logErr) {
+      console.error("Activity log failed:", logErr.message);
+    }
+
     res.status(201).json(savedPost);
   } catch (err) {
     res.status(500).json({ error: err.message });

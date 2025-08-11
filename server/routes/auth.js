@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import dotenv from "dotenv";
+import ActivityLog from "../models/activityLog.js";
 
 const authRouter = express.Router();
 
@@ -47,7 +48,15 @@ authRouter.post("/login", async (req, res) => {
       role: user.role,
       token: token,
     };
-
+    try {
+      await ActivityLog.create({
+        User: user._id,
+        action: "Login",
+        targetType: "User",
+      });
+    } catch (logErr) {
+      console.error("Activity log Failed", logErr.message);
+    }
     res.status(200).json(userInfo);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -62,6 +71,15 @@ authRouter.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
+    try {
+      await ActivityLog.create({
+        User: newUser._id,
+        action: "Register",
+        targetType: "User",
+      });
+    } catch (logErr) {
+      console.error("Activity Log Failed", logErr.message);
+    }
     res.status(201).json(newUser);
   } catch (err) {
     res.status(400).json({ error: err.message });
