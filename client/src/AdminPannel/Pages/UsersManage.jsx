@@ -95,7 +95,10 @@ const UsersManage = () => {
                 ))}
               {userData.filter((user) => user.role === "user").length === 0 && (
                 <tr>
-                  <td colSpan="8" className="text-center text-muted py-4">
+                  <td
+                    colSpan="8"
+                    className="text-center text-muted py-4 fw-bold"
+                  >
                     😶 No users available
                   </td>
                 </tr>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdArticle, MdPendingActions } from "react-icons/md";
 import { FaUserTie, FaUsers } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
@@ -6,15 +6,47 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAdminBlogs } from "../../contexts/AdminsBlogsReqContext";
 import { GetUsersContext } from "../../contexts/GetUsersContext";
 
+import { toast } from "react-toastify";
+import axios from "axios";
+
 const AdminDashBoard = () => {
   const navigate = useNavigate();
-
+  const [activityLogs, setActivityLogs] = useState([]);
   const { allBlogs, getAllBlogs, allPendingBlogs } = useAdminBlogs();
   const { users, getAllUsers } = useContext(GetUsersContext);
   useEffect(() => {
     getAllBlogs();
     getAllUsers();
   }, []);
+  // call getActivityLog function
+  useEffect(() => {
+    getActivityLog();
+  }, []);
+
+  const getActivityLog = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Invalid/No token found");
+        return;
+      }
+      const res = await axios.get("http://localhost:3000/adminlog", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.status !== 200) {
+        toast.error("Failed to get Activity Logs ");
+        return;
+      }
+      setActivityLogs(res.data);
+      // toast.success("Successfully get the Logs ");
+    } catch (err) {
+      toast.error("Something Wrong in the API", err);
+    }
+  };
+
+  console.log(activityLogs);
 
   const userslength = users.filter((user) => user.role === "user");
   const publisherslength = users.filter((user) => user.role === "publisher");
@@ -81,24 +113,34 @@ const AdminDashBoard = () => {
             <div className="card-header fw-bold bg-secondary text-white">
               🕒 Recent Activity
             </div>
+
             <ul
-              className="list-group list-group-flush overflow-auto bg-black"
+              className="list-group list-group-flush overflow-auto"
               style={{ maxHeight: "300px" }}
             >
-              <li className="list-group-item bg-dark text-light border-secondary">
-                ✅ Blog Approved: <b>“Intro to Node.js”</b>{" "}
-                <span className="text-muted small">· 1 hr ago</span>
-              </li>
-              <li className="list-group-item bg-dark text-light border-secondary">
-                ✏️ Publisher Request by <b>“JohnDoe”</b>{" "}
-                <span className="text-muted small">· 2 hrs ago</span>
-              </li>
+              {activityLogs.length > 0 ? (
+                activityLogs.map((log, idx) => (
+                  <li
+                    key={idx}
+                    className="list-group-item bg-dark text-light border-secondary"
+                  >
+                    {log.action} by <b>{log.User?.username || "Unknown"}</b>{" "}
+                    <span className="text-light small">
+                      • {new Date(log.createdAt).toLocaleString()}
+                    </span>
+                  </li>
+                ))
+              ) : (
+                <li className="list-group-item bg-dark text-light border-secondary">
+                  No recent activity found.
+                </li>
+              )}
             </ul>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="col-md-6 mb-4">
+        <div className="col-md-6 mb-4 bg-transparent">
           <div className="card bg-black text-light shadow h-100 border border-secondary">
             <div className="card-header fw-bold bg-secondary text-white">
               ⚡ Quick Actions
