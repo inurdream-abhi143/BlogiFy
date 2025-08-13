@@ -12,26 +12,29 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { GetUsersProvider } from "./contexts/GetUsersContext.jsx";
 import { BlogsProvider } from "./contexts/BlogsContext.jsx";
 import { AdminsBlogsReqProvider } from "./contexts/AdminsBlogsReqContext.jsx";
+import { BrowserRouter } from "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <LoginContextProvider>
-        <BlogsProvider>
-          <GetUsersProvider>
-            <AdminsBlogsReqProvider>
-              <App />
-            </AdminsBlogsReqProvider>
-          </GetUsersProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <LoginContextProvider>
+          <BlogsProvider>
+            <GetUsersProvider>
+              <AdminsBlogsReqProvider>
+                <App />
+              </AdminsBlogsReqProvider>
+            </GetUsersProvider>
 
-          <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            pauseOnHover
-            theme="light"
-          />
-        </BlogsProvider>
-      </LoginContextProvider>
-    </AuthProvider>
+            <ToastContainer
+              position="top-center"
+              autoClose={2000}
+              pauseOnHover
+              theme="light"
+            />
+          </BlogsProvider>
+        </LoginContextProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </StrictMode>
 );

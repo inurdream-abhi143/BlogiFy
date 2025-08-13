@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import PublisherLayout from "./Publisher/PublisherLayout";
 import AdminApp from "./AdminPannel/AdminApp";
 import MainLayout from "./MainLayout";
@@ -14,57 +14,79 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import RoleProtectedRoutes from "./RoleProtectedRoutes";
 import PublisherApp from "./Publisher/PublisherApp";
 import BlogView from "./Pages/BlogView";
+import { useAuth } from "./contexts/AuthContext";
+import { useEffect } from "react";
+// import { useEffect } from "react";
 const App = () => {
+  const { auth, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   console.log(auth.role);
+  // }, []);
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    if (auth.role === "user") {
+      navigate("/");
+    } else if (auth.role === "publisher") {
+      navigate("/publisher/");
+    } else if (auth.role === "admin") {
+      navigate("/admin/");
+    } else {
+      navigate("/login");
+    }
+  }, [auth.role]);
+
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home />} />
-            <Route path="about" element={<About />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<SignUp />} />
-            <Route path="blogView/:id" element={<BlogView />} />
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="blogView/:id" element={<BlogView />} />
 
-            {/* Protected Routes  */}
-            <Route
-              path="profile"
-              element={
-                <ProtectedRoutes>
-                  <UserProfile />
-                </ProtectedRoutes>
-              }
-            />
-            <Route
-              path="blogs"
-              element={
-                <ProtectedRoutes>
-                  <AllBlogs />
-                </ProtectedRoutes>
-              }
-            />
-          </Route>
+          {/* Protected Routes  */}
           <Route
-            path="/publisher/*"
+            path="profile"
             element={
-              <RoleProtectedRoutes requiredRole="publisher">
-                <PublisherApp />
-              </RoleProtectedRoutes>
+              <ProtectedRoutes>
+                <UserProfile />
+              </ProtectedRoutes>
             }
           />
-
-          {/* admin protected routes */}
           <Route
-            path="/admin/*"
+            path="blogs"
             element={
-              <RoleProtectedRoutes requiredRole="admin">
-                <AdminApp />
-              </RoleProtectedRoutes>
+              <ProtectedRoutes>
+                <AllBlogs />
+              </ProtectedRoutes>
             }
           />
-        </Routes>
-      </BrowserRouter>
+        </Route>
+        <Route
+          path="/publisher/*"
+          element={
+            <RoleProtectedRoutes requiredRole="publisher">
+              <PublisherApp />
+            </RoleProtectedRoutes>
+          }
+        />
+
+        {/* admin protected routes */}
+        <Route
+          path="/admin/*"
+          element={
+            <RoleProtectedRoutes requiredRole="admin">
+              <AdminApp />
+            </RoleProtectedRoutes>
+          }
+        />
+      </Routes>
     </>
   );
 };
