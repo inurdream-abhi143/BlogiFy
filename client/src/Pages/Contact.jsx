@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import {
   FaFacebookF,
   FaTwitter,
@@ -9,11 +10,50 @@ import {
   FaPhoneAlt,
   FaMapMarkerAlt,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const Contact = () => {
-  const handleEmailMessage = (e) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [subject, setSubject] = useState("");
+
+  const handleEmailMessage = async (e) => {
     e.preventDefault();
-    console.log(e.target);
+
+    const data = {
+      service_id: "service_zpto26q",
+      template_id: "template_flqqq9f",
+      user_id: "dNKoT6BpIEgFfLF9Q",
+      template_params: {
+        title: subject,
+        name: name,
+        time: new Date().toLocaleString(),
+        message: message,
+        email: email,
+      },
+    };
+
+    try {
+      const res = await axios.post(
+        "https://api.emailjs.com/api/v1.0/email/send",
+        data
+      );
+      if (res.status !== 200) {
+        toast.error("Failed to send message. Please try again later.");
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessage("");
+      }
+      toast.success("Message sent successfully!");
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+    } catch (err) {
+      toast.error(`Error sending message: ${err.message}`);
+    }
   };
   return (
     <div className="container py-5">
@@ -38,8 +78,20 @@ const Contact = () => {
                 onSubmit={handleEmailMessage}
               >
                 <div className="row mb-3">
-                  {/* Full Name */}
-
+                  <div className="col">
+                    <label htmlFor="email" className="form-label fw-semibold">
+                      Name
+                    </label>
+                    <input
+                      name="form_name"
+                      type="text"
+                      className="form-control"
+                      id="email"
+                      placeholder="Enter your name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
                   {/* Email Address */}
                   <div className="col">
                     <label htmlFor="email" className="form-label fw-semibold">
@@ -51,6 +103,8 @@ const Contact = () => {
                       className="form-control"
                       id="email"
                       placeholder="you@example.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
@@ -66,6 +120,8 @@ const Contact = () => {
                     className="form-control"
                     id="subject"
                     placeholder="Subject of your message"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
                   />
                 </div>
 
@@ -80,6 +136,8 @@ const Contact = () => {
                     id="message"
                     rows="5"
                     placeholder="Write your message here..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                   ></textarea>
                 </div>
 

@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useBlog } from "../../../contexts/BlogsContext";
+import AllBlogs from "../../../Pages/AllBlogs";
 
 const DashBoardCard = () => {
+  const { blogs, getBlogs } = useBlog();
+
+  useEffect(() => {
+    getBlogs();
+  }, []);
+
+  const approvedBlog = blogs.filter(
+    (approveBlog) => approveBlog.status === "approved"
+  );
+  const pendingBlog = blogs.filter(
+    (pendBlogs) => pendBlogs.status === "pending"
+  );
+
+  const rejectedBlog = blogs.filter(
+    (rejtBlog) => rejtBlog.status === "rejected"
+  );
+
   const stats = [
-    { title: "Total Blogs", count: 0, color: "info" },
-    { title: "Approved Blogs", count: 0, color: "success" },
-    { title: "Pending Blogs", count: 0, color: "warning" },
-    { title: "Rejected Blogs", count: 0, color: "danger" },
+    { title: "Total Blogs", count: blogs.length, color: "info" },
+    { title: "Approved Blogs", count: approvedBlog.length, color: "success" },
+    { title: "Pending Blogs", count: pendingBlog.length, color: "warning" },
+    { title: "Rejected Blogs", count: rejectedBlog.length, color: "danger" },
   ];
 
   return (

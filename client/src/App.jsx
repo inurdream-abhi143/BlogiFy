@@ -21,21 +21,32 @@ const App = () => {
   const { auth, loading } = useAuth();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   console.log(auth.role);
-  // }, []);
   useEffect(() => {
     if (loading) {
       return;
     }
-    if (auth.role === "user") {
-      navigate("/");
-    } else if (auth.role === "publisher") {
-      navigate("/publisher/");
-    } else if (auth.role === "admin") {
-      navigate("/admin/");
-    } else {
-      navigate("/login");
+
+    // if (auth.role === "user") {
+    //   navigate("/");
+    // } else if (auth.role === "publisher") {
+    //   navigate("/publisher/");
+    // } else if (auth.role === "admin") {
+    //   navigate("/admin/");
+    // } else {
+    //   navigate("/login");
+    // }
+    switch (auth.role) {
+      case "user":
+        navigate("/");
+        break;
+      case "admin":
+        navigate("/admin");
+        break;
+      case "publisher":
+        navigate("/publisher");
+        break;
+      default:
+        navigate("/login");
     }
   }, [auth.role]);
 
